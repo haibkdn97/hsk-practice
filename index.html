@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>HSK 1 Daily Practice</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--bg:#fff;--bg2:#f5f5f5;--bg3:#efefef;--txt:#111;--txt2:#666;--txt3:#999;--border:#e0e0e0;--border2:#ccc;--blue:#185FA5;--green:#0F6E56;--red:#A32D2D;--lb:#EBF2FF;--lg:#E1F5EE;--lr:#FCEBEB;--r:12px}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1a1a;--bg2:#252525;--bg3:#2e2e2e;--txt:#f0f0f0;--txt2:#aaa;--txt3:#777;--border:#333;--border2:#444;--lb:#0d2240;--lg:#0a2e24;--lr:#2e1010}}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--txt);padding:0;min-height:100vh}
+.app{max-width:600px;margin:0 auto;padding:12px 14px 80px}
+@media(min-width:620px){.app{padding:12px 24px 28px}}
+.hdr{text-align:center;padding:10px 0 4px}
+.hdr h1{font-size:19px;font-weight:700}
+.hdr p{font-size:13px;color:var(--txt2);margin-top:3px}
+.lw{display:flex;justify-content:center;margin:8px 0 2px}
+.lt{display:flex;border:1.5px solid var(--border2);border-radius:var(--r);overflow:hidden}
+.lb{padding:7px 20px;font-size:13px;font-weight:700;cursor:pointer;border:none;background:transparent;color:var(--txt2);transition:.15s}
+.lb.on{background:var(--blue);color:#fff}
+.tab-bar{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--bg);border-top:1px solid var(--border);z-index:200;padding-bottom:env(safe-area-inset-bottom,0px)}
+.tb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 2px 6px;cursor:pointer;font-size:10px;font-weight:500;color:var(--txt3);border:none;background:transparent;gap:3px;min-height:52px;transition:.1s}
+.tb.on{color:var(--blue)}
+.tb-ic{font-size:21px;line-height:1}
+.tb.on .tb-ic{transform:scale(1.15)}
+@media(min-width:620px){.tab-bar{position:sticky;top:0;bottom:auto;border-top:none;border-bottom:1px solid var(--border);padding:0 8px}.tb{flex-direction:row;gap:6px;font-size:13px;min-height:48px;padding:10px 8px}.tb-ic{font-size:17px}}
+.scr{display:none}.scr.on{display:block}
+.card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.hz{font-size:76px;font-weight:300;text-align:center;line-height:1;margin:10px 0 6px;letter-spacing:3px}
+.py{font-size:21px;color:var(--blue);text-align:center;min-height:28px;font-weight:600}
+.mn{font-size:16px;color:var(--txt2);text-align:center;min-height:22px;margin-top:5px}
+.ex{font-size:13px;color:var(--txt3);text-align:center;font-style:italic;margin-top:6px;line-height:1.6;padding:0 8px;min-height:18px}
+.prog{height:5px;background:var(--bg3);border-radius:3px;margin-bottom:12px;overflow:hidden}
+.pf{height:100%;background:var(--blue);border-radius:3px;transition:width .35s}
+.br{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.btn{flex:1;min-width:0;padding:14px 10px;border-radius:var(--r);border:1px solid var(--border2);background:var(--bg);cursor:pointer;font-size:15px;font-weight:600;color:var(--txt);text-align:center;transition:.12s;min-height:52px;display:flex;align-items:center;justify-content:center;gap:6px;line-height:1.2}
+.btn:active{transform:scale(.96);opacity:.8}
+.bp{background:var(--txt);color:var(--bg);border-color:transparent}
+.bg2{background:var(--green);color:#fff;border-color:transparent}
+.br2{background:var(--red);color:#fff;border-color:transparent}
+.bsm{font-size:13px;padding:10px 12px;min-height:42px;font-weight:500}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.pill{padding:6px 13px;border-radius:20px;border:1px solid var(--border2);background:var(--bg);cursor:pointer;font-size:12px;font-weight:600;color:var(--txt2)}
+.pill.on{background:var(--txt);color:var(--bg);border-color:transparent}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.opt{padding:12px 8px;border-radius:var(--r);border:2px solid var(--border);background:var(--bg);cursor:pointer;font-size:14px;font-weight:600;text-align:center;min-height:54px;display:flex;align-items:center;justify-content:center;line-height:1.3;transition:.1s}
+.opt:active{transform:scale(.96)}
+.opt.ok{border-color:var(--green);background:var(--lg);color:#085041}
+.opt.bad{border-color:var(--red);background:var(--lr);color:#501313}
+.opt.dis{cursor:default;pointer-events:none;opacity:.75}
+.res{padding:12px 14px;border-radius:var(--r);font-size:14px;font-weight:600;margin-top:10px;min-height:46px;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.5}
+.res.ok{background:var(--lg);color:#085041}
+.res.bad{background:var(--lr);color:#501313}
+.inp{width:100%;padding:14px;border-radius:var(--r);border:2px solid var(--border);background:var(--bg);font-size:16px;color:var(--txt);outline:none;margin-top:10px}
+.inp:focus{border-color:var(--blue)}
+.inp.okb{border-color:var(--green)}
+.inp.badb{border-color:var(--red)}
+.srow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.sbox{background:var(--bg2);border-radius:var(--r);padding:14px 8px;text-align:center}
+.snum{font-size:30px;font-weight:700}
+.slbl{font-size:11px;color:var(--txt2);margin-top:3px;font-weight:500}
+.ri{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r);background:var(--bg2);margin-bottom:6px}
+.rh{font-size:26px;font-weight:600;min-width:44px}
+.rp{font-size:12px;color:var(--blue);font-weight:500}
+.rm{font-size:13px;margin-top:2px}
+.gi{border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:10px;background:var(--bg)}
+.gl{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--bg2);color:var(--txt3);float:right;margin-left:8px;font-weight:600}
+.gs{font-size:16px;font-weight:700;color:var(--blue);margin-bottom:6px;line-height:1.3}
+.gm{font-size:13px;color:var(--txt2);margin-bottom:8px}
+.ge{font-size:12px;color:var(--txt3);border-left:3px solid var(--blue);padding-left:10px;line-height:1.7;margin-bottom:6px}
+.gex{font-size:12px;color:var(--txt3);font-style:italic;padding-left:13px;line-height:1.5}
+.ctr{text-align:center;font-size:13px;color:var(--txt2);margin-top:8px}
+.sc{font-size:13px;font-weight:700;color:var(--txt2)}
+.ml{font-size:11px;color:var(--txt3);margin-bottom:3px}
+.sl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--txt3);margin-bottom:8px}
+.qtxt{font-size:19px;font-weight:600;text-align:center;min-height:70px;display:flex;align-items:center;justify-content:center;line-height:1.5;padding:0 8px}
+.ltag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;background:var(--bg2);color:var(--txt2);border:1px solid var(--border);font-weight:500}
+.em{text-align:center;color:var(--txt2);padding:2rem;font-size:14px}
+.mw-py{font-size:13px;color:var(--blue);text-align:center;margin-bottom:6px;font-weight:600;min-height:20px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="hdr">
+    <h1>HSK 1 Daily Practice</h1>
+    <p id="hp">Lessons 3-15</p>
+    <div class="lw"><div class="lt">
+      <button class="lb on" id="lb-en" onclick="setLang('en')">EN</button>
+      <button class="lb" id="lb-vi" onclick="setLang('vi')">VI</button>
+    </div></div>
+  </div>
+  <div id="s-flash" class="scr on">
+    <div class="card" style="padding:12px 14px 10px"><div class="sl" id="fcl">Filter by category</div><div class="pills" id="cat-pills"></div></div>
+    <div class="prog"><div class="pf" id="fp" style="width:0%"></div></div>
+    <div class="card" style="text-align:center;min-height:290px;display:flex;flex-direction:column;justify-content:center">
+      <div class="py" id="fpy"></div><div class="hz" id="fhz">-</div>
+      <div class="mn" id="fmn"></div><div class="ex" id="fex"></div>
+      <div style="margin-top:10px" id="ftag"></div>
+    </div>
+    <div class="br">
+      <button class="btn" id="b-show" onclick="flReveal()">Show</button>
+      <button class="btn bg2" id="b-know" onclick="flMark(1)">Know</button>
+      <button class="btn br2" id="b-learn" onclick="flMark(0)">Learn</button>
+    </div>
+    <div class="br">
+      <button class="btn bsm" id="b-shuf" onclick="flShuffle()">Shuffle</button>
+      <button class="btn bsm" id="b-weak" onclick="flWeak()">Weak only</button>
+    </div>
+    <div class="ctr" id="fctr"></div>
+  </div>
+  <div id="s-quiz" class="scr">
+    <div class="prog"><div class="pf" id="qp" style="width:0%"></div></div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <div class="ml" id="qmode"></div><span class="sc" id="qsc">0/0</span>
+      </div>
+      <div class="hz" id="qq" style="margin:.4rem 0;min-height:80px;display:flex;align-items:center;justify-content:center;font-size:52px">-</div>
+      <div class="opts" id="qopts"></div><div class="res" id="qres"></div>
+    </div>
+    <div class="br">
+      <button class="btn bp" id="b-qnxt" onclick="qzNext()">Next</button>
+      <button class="btn bsm" id="b-qrst" onclick="qzReset()">Restart</button>
+    </div>
+  </div>
+  <div id="s-sent" class="scr">
+    <div class="prog"><div class="pf" id="tp" style="width:0%"></div></div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <div class="ml" id="tmode"></div><span class="sc" id="tsc">0/0</span>
+      </div>
+      <div style="font-size:11px;color:var(--txt3);margin-bottom:6px" id="tfoc"></div>
+      <div class="qtxt" id="tq">-</div>
+      <input class="inp" id="tinp" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <div style="font-size:12px;color:var(--txt3);text-align:center;margin-top:5px" id="thint"></div>
+      <div class="res" id="tres"></div>
+    </div>
+    <div class="br">
+      <button class="btn bp" id="b-tck" onclick="trCheck()">Check</button>
+      <button class="btn bsm" id="b-tsk" onclick="trSkip()">Show answer</button>
+      <button class="btn bsm" id="b-tnx" onclick="trNext()">Next</button>
+    </div>
+  </div>
+  <div id="s-mw" class="scr">
+    <div class="prog"><div class="pf" id="mp" style="width:0%"></div></div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div class="ml" id="mwtitle"></div><span class="sc" id="msc">0/0</span>
+      </div>
+      <div id="mwq" style="font-size:17px;font-weight:600;text-align:center;padding:10px 8px 4px;line-height:1.5"></div>
+      <div class="mw-py" id="mwpy"></div>
+      <div class="res" id="mwex" style="font-style:italic;font-size:13px;color:var(--txt3);background:transparent;min-height:0;margin-top:0;padding:0 8px 6px"></div>
+      <div class="opts" id="mopts"></div>
+      <div class="res" id="mres"></div>
+    </div>
+    <div class="br">
+      <button class="btn bp" id="b-mnx" onclick="mwNext()">Next</button>
+      <button class="btn bsm" id="b-mrst" onclick="mwReset()">Restart</button>
+    </div>
+  </div>
+  <div id="s-gram" class="scr">
+    <div class="card" style="padding:12px 14px 10px"><div class="sl" id="grl">Filter by lesson</div><div class="pills" id="gr-pills"></div></div>
+    <div id="gr-list"></div>
+  </div>
+  <div id="s-stats" class="scr">
+    <div class="srow">
+      <div class="sbox"><div class="snum" id="stot">0</div><div class="slbl" id="sl1">Reviewed</div></div>
+      <div class="sbox"><div class="snum" id="skn">0</div><div class="slbl" id="sl2">Know</div></div>
+      <div class="sbox"><div class="snum" id="sstr">0</div><div class="slbl" id="sl3">Streak</div></div>
+    </div>
+    <div class="card"><div class="sl" id="srl" style="margin-bottom:10px">Words to review</div><div id="rev-list"></div></div>
+    <div class="br"><button class="btn bsm br2" id="b-srst" onclick="if(confirm(LANG==='vi'?'Xoá tất cả?':'Reset all stats?'))clearStats()">Reset</button></div>
+  </div>
+</div>
+<div class="tab-bar">
+  <button class="tb on" onclick="go('flash',this)"><span class="tb-ic">&#x1F0CF;</span><span id="tb0">Cards</span></button>
+  <button class="tb" onclick="go('quiz',this)"><span class="tb-ic">&#x1F3AF;</span><span id="tb1">Quiz</span></button>
+  <button class="tb" onclick="go('sent',this)"><span class="tb-ic">&#x1F4AC;</span><span id="tb2">Sentences</span></button>
+  <button class="tb" onclick="go('mw',this)"><span class="tb-ic">&#x1F522;</span><span id="tb3">Measure</span></button>
+  <button class="tb" onclick="go('gram',this)"><span class="tb-ic">&#x1F4D6;</span><span id="tb4">Grammar</span></button>
+  <button class="tb" onclick="go('stats',this)"><span class="tb-ic">&#x1F4CA;</span><span id="tb5">Stats</span></button>
+</div>
+<script>
+var CATS_EN={pron:'Pronouns',ppl:'People',place:'Places',time:'Time',food:'Food',verb:'Verbs',adj:'Adjectives',things:'Things'};
+var CATS_VI={pron:'Đại từ',ppl:'Con người',place:'Địa điểm',time:'Thời gian',food:'Đồ ăn uống',verb:'Động từ',adj:'Tính từ',things:'Đồ vật & khác'};
+var CAT_KEYS=['pron','ppl','place','time','food','verb','adj','things'];
+function catName(k){return (LANG==='vi'?CATS_VI:CATS_EN)[k]||k;}
+
+var LANG='en';
+var UE={hp:'Lessons 3-15',catLbl:'Filter by category',grLbl:'Filter by lesson',
+  show:'Show',know:'Know \u2713',learn:'Learn \u2717',shuf:'Shuffle',weak:'Weak only',
+  qnxt:'Next \u2192',qrst:'Restart',
+  tmode:'English \u2192 Chinese (type it)',
+  thint:'Press Enter or Check. Punctuation optional. Wrong? Fix and try again!',
+  tpla:'Type Chinese here...',tck:'Check',tsk:'Show answer',tnx:'Next \u2192',
+  mwt:'Measure Words \u91cf\u8bcd',mnx:'Next \u2192',mrst:'Restart',
+  ok:'\u2713 Correct!',wrong:'\u2717 Answer: ',ans:'Answer: ',
+  noW:'Select a category',noG:'No lessons selected.',
+  sl1:'Reviewed',sl2:'Know',sl3:'Streak',srl:'Words to review',
+  sem:'No words to review!',srst:'Reset stats',
+  gfoc:'Grammar: ',ltag:'Lesson ',
+  tb:['Cards','Quiz','Sentences','Measure','Grammar','Stats']};
+var UV={hp:'B\u00e0i 3-15',catLbl:'L\u1ecdc theo ch\u1ee7 \u0111\u1ec1',grLbl:'L\u1ecdc theo b\u00e0i',
+  show:'Xem',know:'Bi\u1ebft r\u1ed3i \u2713',learn:'Ch\u01b0a bi\u1ebft \u2717',shuf:'X\u00e1o b\u00e0i',weak:'T\u1eeb y\u1ebfu',
+  qnxt:'Ti\u1ebfp \u2192',qrst:'L\u00e0m l\u1ea1i',
+  tmode:'Ti\u1ebfng Vi\u1ec7t \u2192 Ti\u1ebfng Trung (g\u00f5 v\u00e0o)',
+  thint:'Nh\u1ea5n Enter ho\u1eb7c Ki\u1ec3m tra. D\u1ea5u c\u00e2u kh\u00f4ng b\u1eaft bu\u1ed9c. Sai th\u00ec s\u1eeda v\u00e0 th\u1eed l\u1ea1i!',
+  tpla:'G\u00f5 ti\u1ebfng Trung v\u00e0o \u0111\u00e2y...',tck:'Ki\u1ec3m tra',tsk:'Xem \u0111\u00e1p \u00e1n',tnx:'C\u00e2u ti\u1ebfp \u2192',
+  mwt:'L\u01b0\u1ee3ng t\u1eeb \u91cf\u8bcd',mnx:'Ti\u1ebfp \u2192',mrst:'L\u00e0m l\u1ea1i',
+  ok:'\u2713 \u0110\u00fang r\u1ed3i!',wrong:'\u2717 \u0110\u00e1p \u00e1n: ',ans:'\u0110\u00e1p \u00e1n: ',
+  noW:'Ch\u1ecdn ch\u1ee7 \u0111\u1ec1 \u0111\u1ec3 h\u1ecdc',noG:'Ch\u01b0a ch\u1ecdn b\u00e0i n\u00e0o.',
+  sl1:'\u0110\u00e3 xem',sl2:'Bi\u1ebft',sl3:'Chu\u1ed7i ng\u00e0y',srl:'T\u1eeb c\u1ea7n \u00f4n',
+  sem:'Kh\u00f4ng c\u00f3 t\u1eeb n\u00e0o c\u1ea7n \u00f4n!',srst:'Xo\u00e1 th\u1ed1ng k\u00ea',
+  gfoc:'Ng\u1eef ph\u00e1p: ',ltag:'B\u00e0i ',
+  tb:['Th\u1ebb','Quiz','D\u1ecbch','L\u01b0\u1ee3ng t\u1eeb','Ng\u1eef ph\u00e1p','Th\u1ed1ng k\u00ea']};
+function u(k){return (LANG==='vi'?UV:UE)[k]||(UE)[k];}
+function mn(w){return LANG==='vi'?w.v:w.m;}
+var V=[{h:"我",p:"wǒ",m:"I / me",v:"Tôi / tao",e:"我是学生。",c:"pron",l:3},{h:"你",p:"nǐ",m:"you",v:"Bạn / mày",e:"你叫什么名字？",c:"pron",l:3},{h:"您",p:"nín",m:"you (formal)",v:"Bạn (lịch sự)",e:"您好！",c:"pron",l:3},{h:"他",p:"tā",m:"he / him",v:"Anh ấy",e:"他是老师。",c:"pron",l:3},{h:"她",p:"tā",m:"she / her",v:"Cô ấy",e:"她叫李月。",c:"pron",l:3},{h:"它",p:"tā",m:"it (non-human)",v:"Nó (vật)",e:"它在椅子下面。",c:"pron",l:9},{h:"我们",p:"wǒmen",m:"we / us",v:"Chúng tôi",e:"我们都是学生。",c:"pron",l:11},{h:"你们",p:"nǐmen",m:"you (plural)",v:"Các bạn",e:"你们好！",c:"pron",l:11},{h:"他们",p:"tāmen",m:"they (male/mixed)",v:"Họ (nam)",e:"他们在医院工作。",c:"pron",l:11},{h:"谁",p:"shéi",m:"who",v:"Ai",e:"她是谁？",c:"pron",l:4},{h:"什么",p:"shénme",m:"what",v:"Gì / cái gì",e:"你叫什么名字？",c:"pron",l:3},{h:"哪",p:"nǎ",m:"which",v:"Nào / nước nào",e:"你是哪国人？",c:"pron",l:4},{h:"哪儿",p:"nǎr",m:"where",v:"Ở đâu",e:"你的杯子在哪儿？",c:"pron",l:9},{h:"这",p:"zhè",m:"this",v:"Đây / này",e:"这是什么？",c:"pron",l:8},{h:"那",p:"nà",m:"that",v:"Kia / đó",e:"那个杯子多少錢？",c:"pron",l:8},{h:"这儿",p:"zhèr",m:"here",v:"Ở đây",e:"这儿有人吗？",c:"pron",l:10},{h:"那儿",p:"nàr",m:"there",v:"Ở đó",e:"小猫在那儿。",c:"pron",l:9},{h:"这些",p:"zhèxiē",m:"these",v:"Những cái này",e:"这些都是我的东西。",c:"pron",l:14},{h:"那些",p:"nàxiē",m:"those",v:"Những cái đó",e:"那些衣服很漂亮。",c:"pron",l:14},{h:"你好",p:"nǐ hǎo",m:"hello",v:"Xin chào",e:"你好！我叫李月。",c:"ppl",l:3},{h:"对不起",p:"duìbuqǐ",m:"sorry / excuse me",v:"Xin lỗi",e:"对不起，这个字怎么写？",c:"ppl",l:3},{h:"没关系",p:"méi guānxi",m:"no problem",v:"Không sao",e:"没关系！",c:"ppl",l:3},{h:"谢谢",p:"xièxie",m:"thank you",v:"Cảm ơn",e:"谢谢你，医生。",c:"ppl",l:3},{h:"不用谢",p:"bú yòng xiè",m:"don't mention it",v:"Không có gì",e:"不用谢！",c:"ppl",l:3},{h:"再见",p:"zàijiàn",m:"goodbye",v:"Tạm biệt",e:"再见！",c:"ppl",l:3},{h:"请问",p:"qǐngwèn",m:"excuse me / may I ask",v:"Xin hỏi / cho hỏi",e:"请问，今天几号？",c:"ppl",l:7},{h:"高兴",p:"gāoxìng",m:"happy / glad",v:"Vui / vui mừng",e:"很高兆认识你！",c:"ppl",l:15},{h:"中国",p:"Zhōngguó",m:"China",v:"Trung Quốc",e:"她是中国人。",c:"things",l:3},{h:"美国",p:"Měguó",m:"USA",v:"Nước Mỹ",e:"他是美国人。",c:"things",l:3},{h:"越南",p:"Yuènán",m:"Vietnam",v:"Việt Nam",e:"越南菜很好吃。",c:"things",l:3},{h:"泰国",p:"Tàiguó",m:"Thailand",v:"Thái Lan",e:"泰国菜也很好吃。",c:"things",l:3},{h:"韩国",p:"Hánguó",m:"South Korea",v:"Hàn Quốc",e:"她学习韩语。",c:"things",l:3},{h:"日本",p:"Rìběn",m:"Japan",v:"Nhật Bản",e:"日本菜很好看。",c:"things",l:3},{h:"英国",p:"Yīngguó",m:"UK",v:"Anh Quốc",e:"他是英国人。",c:"things",l:3},{h:"澳大利亚",p:"Àodàlìyà",m:"Australia",v:"Úc",e:"我住在澳大利亚。",c:"things",l:3},{h:"汉语",p:"Hànyǔ",m:"Chinese / Mandarin",v:"Tiếng Trung / Tiếng Hán",e:"我会说汉语。",c:"things",l:3},{h:"英语",p:"Yīnyǔ",m:"English",v:"Tiếng Anh",e:"美国人说英语。",c:"things",l:3},{h:"越南语",p:"Yuènányǔ",m:"Vietnamese",v:"Tiếng Việt",e:"越南人说越南语。",c:"things",l:3},{h:"韩语",p:"Hányǔ",m:"Korean",v:"Tiếng Hàn",e:"你会说韩语吗？",c:"things",l:3},{h:"人",p:"rén",m:"person / people",v:"Người",e:"那个人是谁？",c:"ppl",l:3},{h:"朋友",p:"péngyou",m:"friend",v:"Bạn bè",e:"她是我朋友。",c:"ppl",l:4},{h:"同学",p:"tóngxué",m:"classmate",v:"Bạn học / bạn cùng lớp",e:"他是我同学。",c:"ppl",l:4},{h:"老师",p:"lǎo shī",m:"teacher",v:"Giáo viên",e:"她是我的汉语老师。",c:"ppl",l:3},{h:"学生",p:"xuésheng",m:"student",v:"Học sinh",e:"我是学生。",c:"ppl",l:3},{h:"名字",p:"míngzi",m:"name",v:"Tên",e:"你叫什么名字？",c:"ppl",l:3},{h:"医生",p:"yīshēng",m:"doctor",v:"Bác sĩ",e:"他在医院工作，他是医生。",c:"ppl",l:9},{h:"先生",p:"xiānsheng",m:"Mr. / sir",v:"Ông / Ngài",e:"你看见张先生了吗？",c:"ppl",l:14},{h:"小姐",p:"xiǎo jiě",m:"Miss",v:"Cô",e:"王小姐今天会来吗？",c:"ppl",l:12},{h:"家",p:"jiā",m:"home / family",v:"Nhà / gia đình",e:"我家有三口人。",c:"ppl",l:5},{h:"爸爸",p:"bàba",m:"dad / father",v:"Bố / ba",e:"你爸爸在家吗？",c:"ppl",l:5},{h:"妈妈",p:"māma",m:"mom / mother",v:"Mẹ / má",e:"妈妈会做中国菜。",c:"ppl",l:6},{h:"哥哥",p:"gēge",m:"older brother",v:"Anh trai",e:"我哥哥是医生。",c:"ppl",l:5},{h:"姐姐",p:"jiějie",m:"older sister",v:"Chị gái",e:"她姐姐是老师。",c:"ppl",l:5},{h:"弟弟",p:"dìdi",m:"younger brother",v:"Em trai",e:"他弟弟今年十岁。",c:"ppl",l:5},{h:"妹妹",p:"mèimei",m:"younger sister",v:"Em gái",e:"我妹妹今年二十岁了。",c:"ppl",l:5},{h:"儿子",p:"érzi",m:"son",v:"Con trai",e:"你儿子在哪儿工作？",c:"ppl",l:9},{h:"女儿",p:"nǚ'er",m:"daughter",v:"Con gái",e:"她女儿今年二十岁了。",c:"ppl",l:5},{h:"爷爷",p:"yéye",m:"grandfather (paternal)",v:"Ông nội",e:"爷爷今年七十岁了。",c:"ppl",l:5},{h:"奶奶",p:"nǎnai",m:"grandmother (paternal)",v:"Bà nội",e:"奶奶很喜欢喝茶。",c:"ppl",l:5},{h:"外公",p:"wàigōng",m:"grandfather (maternal)",v:"Ông ngoại",e:"外公在家吗？",c:"ppl",l:5},{h:"外婆",p:"wàipó",m:"grandmother (maternal)",v:"Bà ngoại",e:"外婆做菜很好吃。",c:"ppl",l:5},{h:"老公",p:"lǎogōng",m:"husband (informal)",v:"Chồng",e:"你老公在哪儿工作？",c:"ppl",l:5},{h:"老婆",p:"lǎo pó",m:"wife (informal)",v:"Vợ",e:"我老婆是医生。",c:"ppl",l:5},{h:"父母",p:"fùmǔ",m:"parents",v:"Cha mẹ",e:"我父母都是老师。",c:"ppl",l:5},{h:"今天",p:"jīntiān",m:"today",v:"Hôm nay",e:"今天几号？",c:"time",l:7},{h:"明天",p:"míngtiān",m:"tomorrow",v:"Ngày mai",e:"明天天气怎么样？",c:"time",l:7},{h:"昨天",p:"zuótiān",m:"yesterday",v:"Hôm qua",e:"昨天天气怎么样？",c:"time",l:7},{h:"今年",p:"jīnnín",m:"this year",v:"Năm nay",e:"她女儿今年二十岁了。",c:"time",l:5},{h:"去年",p:"qùnín",m:"last year",v:"Năm ngoái",e:"去年我在越南学汉语。",c:"time",l:5},{h:"明年",p:"míngnín",m:"next year",v:"Năm sau",e:"明年我想去中国。",c:"time",l:5},{h:"前天",p:"qiántiān",m:"day before yesterday",v:"Hôm kia",e:"前天我去商店了。",c:"time",l:7},{h:"后天",p:"hòutiān",m:"day after tomorrow",v:"Ngày kia",e:"后天我们去看电影。",c:"time",l:7},{h:"早上",p:"zǎoshàng",m:"morning",v:"Buổi sáng",e:"你早上几点吃早饭？",c:"time",l:8},{h:"上午",p:"shàngwǔ",m:"morning (before noon)",v:"Buổi sáng (trước 12h)",e:"昨天上午你在做什么？",c:"time",l:13},{h:"中午",p:"zhōngwǔ",m:"noon",v:"Buổi trưa",e:"中午几点吃饭？",c:"time",l:11},{h:"下午",p:"xiàwǔ",m:"afternoon",v:"Buổi chiều",e:"下午五点我去商店。",c:"time",l:8},{h:"晚上",p:"wǎnshàng",m:"evening / night",v:"Buổi tối",e:"昨天晚上你在做什么？",c:"time",l:8},{h:"现在",p:"xiànzài",m:"now",v:"Bây giờ",e:"现在几点？",c:"time",l:11},{h:"年",p:"nián",m:"year",v:"Năm",e:"你是哪年出生的？",c:"time",l:15},{h:"月",p:"yuè",m:"month",v:"Tháng",e:"一年有十二个月。",c:"time",l:7},{h:"号",p:"hào",m:"date (spoken)",v:"Ngày (khẩu ngữ)",e:"今天是九月一号。",c:"time",l:7},{h:"星期",p:"xīngqī",m:"week / weekday",v:"Tuần / thứ",e:"今天星期几？",c:"time",l:7},{h:"周末",p:"zhōmò",m:"weekend",v:"Cuối tuần",e:"周末你想做什么？",c:"time",l:7},{h:"点",p:"diǎn",m:"o'clock",v:"Giờ (đồng hồ)",e:"现在十点十分。",c:"time",l:11},{h:"分",p:"fēn",m:"minute",v:"Phút",e:"下午三点十分。",c:"time",l:11},{h:"半",p:"bàn",m:"half (30 min)",v:"Rưỡi / 30 phút",e:"六点半 = 6:30",c:"time",l:11},{h:"刻",p:"kè",m:"quarter hour (15 min)",v:"Khắc (15 phút)",e:"六点一刻 = 6:15",c:"time",l:11},{h:"差",p:"chà",m:"short of (time)",v:"Kém (giờ kém)",e:"差五分六点 = 5:55",c:"time",l:11},{h:"分钟",p:"fēnzhōng",m:"minutes (duration)",v:"Phút (thời lượng)",e:"40分钟后回来。",c:"time",l:14},{h:"前",p:"qián",m:"before / in front",v:"Trước",e:"三点前能回家吗？",c:"time",l:11},{h:"后",p:"hòu",m:"after / behind",v:"Sau",e:"吃饭后，我去学校。",c:"time",l:14},{h:"时候",p:"shíhou",m:"(a point in) time / when",v:"Lúc / khi",e:"你什么时候回家？",c:"time",l:11},{h:"时间",p:"shíjiān",m:"time (duration)",v:"Thời gian",e:"你有多长时间？",c:"time",l:11},{h:"菜",p:"cài",m:"dish / food / vegetable",v:"Món ăn / rau",e:"中国菜很好吃。",c:"food",l:6},{h:"米饭",p:"mǐfàn",m:"cooked rice",v:"Cơm",e:"我想吃米饭。",c:"food",l:8},{h:"面条",p:"miàntiáo",m:"noodles",v:"Mì sợi",e:"我想吃面条。",c:"food",l:8},{h:"包子",p:"bāozi",m:"steamed bun",v:"Bánh bao",e:"这家包子很好吃。",c:"food",l:8},{h:"饲子",p:"jiǎo zi",m:"dumpling",v:"Sủi cảo / bánh chẻo",e:"我会做饲子。",c:"food",l:8},{h:"茶",p:"chá",m:"tea",v:"Trà",e:"我想喝茶。",c:"food",l:8},{h:"咏啊",p:"kāfēi",m:"coffee",v:"Cà phê",e:"你想喝咏啊吗？",c:"food",l:8},{h:"可乐",p:"kělè",m:"cola",v:"Cola / nước ngọt",e:"我要一杯可乐。",c:"food",l:8},{h:"啊酒",p:"píjiǔ",m:"beer",v:"Bia",e:"爸爸喝啊酒。",c:"food",l:8},{h:"水",p:"shuǐ",m:"water",v:"Nước",e:"你多喝水。",c:"food",l:12},{h:"水果",p:"shuǐguǒ",m:"fruit",v:"Trái cây / hoa quả",e:"你爱吃什么水果？",c:"food",l:12},{h:"苹果",p:"píngguǒ",m:"apple",v:"Táo",e:"我买了一点儿苹果。",c:"food",l:14},{h:"香蕉",p:"xiāngjiāo",m:"banana",v:"Chuối",e:"一根香蕉多少錢？",c:"food",l:12},{h:"西瓜",p:"xīguā",m:"watermelon",v:"Dưa hấu",e:"一块西瓜两块錢。",c:"food",l:12},{h:"芒果",p:"mángguǒ",m:"mango",v:"Xoài",e:"我想买一杯芒果汁。",c:"food",l:12},{h:"草莓",p:"cǎo méi",m:"strawberry",v:"Dâu tây",e:"草莓两斤多少錢？",c:"food",l:12},{h:"葡萄",p:"pútào",m:"grape",v:"Nho",e:"一串葡萄。",c:"food",l:12},{h:"梨",p:"lí",m:"pear",v:"Lê",e:"一个梨多少錢？",c:"food",l:12},{h:"好吃",p:"hǎo chī",m:"delicious (food)",v:"Ngon (đồ ăn)",e:"中国菜很好吃。",c:"food",l:6},{h:"好喊",p:"hǎo hē",m:"tasty (drinks)",v:"Ngon (đồ uống)",e:"这个茶很好喊。",c:"food",l:6},{h:"书",p:"shū",m:"book",v:"Sách",e:"我有一本汉语书。",c:"things",l:7},{h:"汉字",p:"hànzì",m:"Chinese character",v:"Chữ Hán",e:"这个汉字怎么写？",c:"things",l:6},{h:"手机",p:"shǒujī",m:"mobile phone",v:"Điện thoại (di động)",e:"你的手机号码是多少？",c:"things",l:13},{h:"电脑",p:"diànnǎo",m:"computer",v:"Máy tính",e:"桌子上有一个电脑。",c:"things",l:10},{h:"电视",p:"diànshì",m:"television",v:"Ti vi",e:"我喜欢看电视。",c:"things",l:13},{h:"电影",p:"diànyǐng",m:"film / movie",v:"Phim điện ảnh",e:"我们什么时候去看电影？",c:"things",l:11},{h:"杯子",p:"bēizi",m:"cup / glass",v:"Cốc / ly",e:"这个杯子多少錢？",c:"things",l:8},{h:"椅子",p:"yǐzi",m:"chair",v:"Ghế",e:"小狗在椅子下面。",c:"things",l:9},{h:"桌子",p:"zhuŏzi",m:"table / desk",v:"Bàn",e:"桌子上有什么？",c:"things",l:10},{h:"笔",p:"bǐ",m:"pen",v:"Bút",e:"一支笔多少錢？",c:"things",l:9},{h:"眼镜",p:"yǎn jìng",m:"glasses",v:"Kính mắt",e:"我的眼镜在哪儿？",c:"things",l:9},{h:"錢包",p:"qiánbāo",m:"wallet",v:"Ví tiền",e:"我的錢包在桌子上。",c:"things",l:9},{h:"车",p:"chē",m:"vehicle / car",v:"Xe / ô tô",e:"他去学开车了。",c:"things",l:14},{h:"衣服",p:"yīfu",m:"clothes",v:"Quần áo",e:"她买了不少衣服。",c:"things",l:14},{h:"上衣",p:"shàngyī",m:"top / shirt",v:"Áo (quần áo trên)",e:"这件上衣很漂亮。",c:"things",l:14},{h:"裤子",p:"kùzi",m:"trousers",v:"Quần",e:"一条裤子。",c:"things",l:14},{h:"裙子",p:"qúnzi",m:"skirt",v:"Váy",e:"她穿裙子很好看。",c:"things",l:14},{h:"鞋子",p:"xiézi",m:"shoes",v:"Giày",e:"一双鞋子多少錢？",c:"things",l:14},{h:"伞",p:"sǎn",m:"umbrella",v:"Ô / dù",e:"下雨了，你有伞吗？",c:"things",l:12},{h:"錢",p:"qián",m:"money",v:"Tiền",e:"这个杯子多少錢？",c:"things",l:8},{h:"块",p:"kuài",m:"yuan (spoken) / piece",v:"Tệ (đơn vị tiền) / miếng",e:"那个杯子十八块錢。",c:"things",l:8},{h:"叫",p:"jiào",m:"to be called / to call",v:"Tên là / gọi là",e:"我叫李月。你叫什么名字？",c:"verb",l:3},{h:"是",p:"shì",m:"to be (am/is/are)",v:"Là",e:"她是我的汉语老师。",c:"verb",l:3},{h:"有",p:"yǒu",m:"to have / there is",v:"Có",e:"你家有几口人？",c:"verb",l:5},{h:"没有",p:"méiyǒu",m:"don't have / there is no",v:"Không có",e:"这儿没有人。",c:"verb",l:5},{h:"在",p:"zài",m:"to be at; to be doing",v:"Ở; Đang làm gì",e:"小狗在椅子下面。",c:"verb",l:9},{h:"会",p:"huì",m:"can (skill); will (prediction)",v:"Biết làm; Sẽ (dự đoán)",e:"我会说汉语。",c:"verb",l:6},{h:"能",p:"néng",m:"can (ability/permission)",v:"Có thể (khả năng / cho phép)",e:"我能坐这儿吗？",c:"verb",l:10},{h:"想",p:"xiǎng",m:"want to",v:"Muốn",e:"我想喝茶。",c:"verb",l:8},{h:"喜欢",p:"xǐhuān",m:"to like",v:"Thích",e:"你喜欢看电视吗？",c:"verb",l:13},{h:"爱",p:"ài",m:"to love / to be fond of",v:"Yêu / rất thích",e:"她爱吃水果。",c:"verb",l:12},{h:"说",p:"shuō",m:"to speak / to say",v:"Nói",e:"你会说汉语吗？",c:"verb",l:6},{h:"写",p:"xiě",m:"to write",v:"Viết",e:"这个字怎么写？",c:"verb",l:6},{h:"读",p:"dú",m:"to read (aloud)",v:"Đọc",e:"这个字我会读，不会写。",c:"verb",l:6},{h:"看",p:"kàn",m:"to look / to watch",v:"Xem / nhìn",e:"我去学校看书。",c:"verb",l:7},{h:"看见",p:"kànjiàn",m:"to see",v:"Nhìn thấy",e:"你看见张先生了吗？",c:"verb",l:14},{h:"听",p:"tīng",m:"to listen / to hear",v:"Nghe",e:"你喜欢听音乐吗？",c:"verb",l:15},{h:"认识",p:"rènshi",m:"to know (a person)",v:"Biết / quen biết",e:"很高兆认识你！",c:"verb",l:15},{h:"吃",p:"chī",m:"to eat",v:"Ăn",e:"你想吃什么？",c:"verb",l:8},{h:"喝",p:"hē",m:"to drink",v:"Uống",e:"我想喝茶。",c:"verb",l:8},{h:"做",p:"zuò",m:"to make / to do / to cook",v:"Làm / nấu",e:"你会做中国菜吗？",c:"verb",l:6},{h:"买",p:"mǎi",m:"to buy",v:"Mua",e:"我想买一个杯子。",c:"verb",l:8},{h:"卖",p:"mài",m:"to sell",v:"Bán",e:"这家店卖什么？",c:"verb",l:8},{h:"去",p:"qù",m:"to go",v:"Đi (đến)",e:"明天我去商店。",c:"verb",l:7},{h:"来",p:"lái",m:"to come",v:"Đến / tới",e:"王小姐今天会来吗？",c:"verb",l:12},{h:"回",p:"huí",m:"to return",v:"Trở về",e:"爸爸什么时候回家？",c:"verb",l:11},{h:"回来",p:"huílái",m:"to come back",v:"Quay trở lại",e:"他什么时候能回来？",c:"verb",l:14},{h:"住",p:"zhù",m:"to live / to stay",v:"Sống / ở lại",e:"你想在北京住几天？",c:"verb",l:11},{h:"工作",p:"gōngzuò",m:"to work / work (n.)",v:"Làm việc / công việc",e:"你儿子在哪儿工作？",c:"verb",l:9},{h:"学习",p:"xuéxí",m:"to study / to learn",v:"Học tập",e:"你在学习汉语吗？",c:"verb",l:13},{h:"坐",p:"zuò",m:"to sit / to travel by",v:"Ngồi / đi (phương tiện)",e:"我能坐这儿吗？",c:"verb",l:10},{h:"睡觉",p:"shuìjiào",m:"to sleep",v:"Ngủ",e:"你几点睡觉？",c:"verb",l:13},{h:"打电话",p:"dǎ diànhuà",m:"to make a phone call",v:"Gọi điện thoại",e:"我现在给她打电话吧。",c:"verb",l:13},{h:"开车",p:"kāi chē",m:"to drive a car",v:"Lái xe",e:"他去学开车了。",c:"verb",l:14},{h:"下雨",p:"xià yǔ",m:"to rain",v:"Mưa (trời mưa)",e:"今天会下雨吗？",c:"verb",l:12},{h:"请",p:"qǐng",m:"please; to invite",v:"Xin / mời",e:"请坐。",c:"verb",l:7},{h:"穿",p:"chuān",m:"to wear",v:"Mặc / đi (giày)",e:"她穿裙子很好看。",c:"verb",l:14},{h:"起床",p:"qǐchuáng",m:"to get up",v:"Thức dậy",e:"你几点起床？",c:"verb",l:13},{h:"上班",p:"shàngbān",m:"to start work",v:"Đi làm / bắt đầu làm",e:"你几点上班？",c:"verb",l:11},{h:"下班",p:"xiàbān",m:"to finish work",v:"Tan làm",e:"你几点下班？",c:"verb",l:11},{h:"下课",p:"xiàkè",m:"to finish class",v:"Tan học",e:"今天你下课后做什么？",c:"verb",l:15},{h:"见面",p:"jiànmiàn",m:"to meet up",v:"Gặp mặt",e:"你今天跟谁见面？",c:"verb",l:14},{h:"好",p:"hǎo",m:"good / well / fine",v:"Tốt / khỏe",e:"你好吗？我很好。",c:"adj",l:3},{h:"很",p:"hěn",m:"very",v:"Rất",e:"中国菜很好吃。",c:"adj",l:6},{h:"太…了",p:"tài...le",m:"too / extremely",v:"Quá / lắm",e:"天气太热了！",c:"adj",l:12},{h:"不太",p:"bú tài",m:"not very",v:"Không lắm",e:"我身体不太好。",c:"adj",l:12},{h:"热",p:"rè",m:"hot",v:"Nóng",e:"天气太热了。",c:"adj",l:12},{h:"冷",p:"lěng",m:"cold",v:"Lạnh",e:"天气太冷了。",c:"adj",l:12},{h:"大",p:"dà",m:"big / large / old (age)",v:"To / lớn",e:"你今年多大了？",c:"adj",l:5},{h:"小",p:"xiǎo",m:"small / little",v:"Nhỏ / bé",e:"小猫在哪儿？",c:"adj",l:9},{h:"多",p:"duō",m:"many / much / a lot",v:"Nhiều",e:"桌子上有很多书。",c:"adj",l:5},{h:"少",p:"shǎo",m:"few / little / less",v:"Ít",e:"我很少给妈妈打电话。",c:"adj",l:14},{h:"不少",p:"bù shǎo",m:"quite a few",v:"Không ít / khá nhiều",e:"她买了不少衣服。",c:"adj",l:14},{h:"漂亮",p:"piàoliang",m:"beautiful / pretty",v:"Đẹp",e:"她买了很多漂亮的衣服。",c:"adj",l:14},{h:"好看",p:"hǎo kàn",m:"good-looking / nice",v:"Đẹp / hay",e:"这部电影很好看。",c:"adj",l:7},{h:"忙",p:"máng",m:"busy",v:"Bận",e:"他们很忙。",c:"adj",l:11},{h:"好听",p:"hǎo tīng",m:"nice-sounding",v:"Nghe hay",e:"你的声音很好听。",c:"adj",l:15},{h:"学校",p:"xuéxiào",m:"school",v:"Trường học",e:"我去学校看书。",c:"place",l:7},{h:"图书馆",p:"túshuːguǎn",m:"library",v:"Thư viện",e:"明天我去图书馆看书。",c:"place",l:7},{h:"医院",p:"yīyàn",m:"hospital",v:"Bệnh viện",e:"他在医院工作。",c:"place",l:9},{h:"商店",p:"shāngdiàn",m:"shop / store",v:"Cửa hàng",e:"我去商店买东西了。",c:"place",l:8},{h:"饭店",p:"fàndiàn",m:"restaurant / hotel",v:"Nhà hàng / khách sạn",e:"我们是坐出租车来饭店的。",c:"place",l:15},{h:"银行",p:"yínháng",m:"bank",v:"Ngân hàng",e:"请问，这是银行吗？",c:"place",l:7},{h:"大学",p:"dàxué",m:"university",v:"Trường đại học",e:"她是我大学同学。",c:"place",l:15},{h:"机场",p:"jīchǎng",m:"airport",v:"Sân bay",e:"我在机场等你。",c:"place",l:15},{h:"上面",p:"shàngmiàn",m:"on top / above",v:"Phía trên",e:"桌子上面有什么？",c:"place",l:9},{h:"下面",p:"xiàmiàn",m:"below / underneath",v:"Phía dưới",e:"小狗在椅子下面。",c:"place",l:9},{h:"里面",p:"lǐmiàn",m:"inside",v:"Bên trong",e:"杯子在桌子里。",c:"place",l:10},{h:"外面",p:"wàimiàn",m:"outside",v:"Bên ngoài",e:"外面下雨了。",c:"place",l:9},{h:"前面",p:"qiánmiàn",m:"in front / ahead",v:"Phía trước",e:"前面那个人是李老师。",c:"place",l:10},{h:"后面",p:"hòumiàn",m:"behind / at the back",v:"Phía sau",e:"后面那个人是我朋友。",c:"place",l:10},{h:"左边",p:"zuǒbiān",m:"left side",v:"Bên trái",e:"商店在左边。",c:"place",l:9},{h:"右边",p:"yòubiān",m:"right side",v:"Bên phải",e:"图书馆在右边。",c:"place",l:9},{h:"旁边",p:"pángbiān",m:"beside / next to",v:"Bên cạnh",e:"我坐在他旁边。",c:"place",l:9},{h:"中间",p:"zhōngjiān",m:"in the middle",v:"Ở giữa",e:"桌子在中间。",c:"place",l:9},{h:"对面",p:"duìmiàn",m:"opposite / across",v:"Đối diện",e:"学校对面是图书馆。",c:"place",l:10},{h:"北京",p:"Běijīng",m:"Beijing",v:"Bắc Kinh",e:"我星期一去北京。",c:"place",l:11},{h:"飞机",p:"fēijī",m:"airplane",v:"Máy bay",e:"我是坐飞机来的。",c:"things",l:15},{h:"出租车",p:"chūzūchē",m:"taxi",v:"Xe taxi",e:"我们是坐出租车来的。",c:"things",l:15},{h:"公共汽车",p:"gōnggòng qìchē",m:"bus",v:"Xe buýt",e:"我坐公共汽车上班。",c:"things",l:14},{h:"火车",p:"huǒchē",m:"train",v:"Tàu hỏa",e:"他们去火车站了。",c:"things",l:14},{h:"地铁",p:"dìtiě",m:"subway / metro",v:"Tàu điện ngầm",e:"我坐地铁上班。",c:"things",l:14},{h:"高铁",p:"gāotiě",m:"high-speed train",v:"Tàu cao tốc",e:"坐高铁去北京。",c:"things",l:14},{h:"摩托车",p:"mótuōchē",m:"motorbike",v:"Xe máy",e:"骑摩托车很快。",c:"things",l:14},{h:"自行车",p:"zìxíngchē",m:"bicycle",v:"Xe đạp",e:"骑自行车去学校。",c:"things",l:9},{h:"一起",p:"yīqǐ",m:"together",v:"Cùng nhau",e:"他是和朋友一起开车来的。",c:"things",l:15},{h:"和",p:"hé",m:"and (nouns)",v:"Và (nối danh từ)",e:"桌子上有电脑和书。",c:"verb",l:10},{h:"也",p:"yě",m:"also / too",v:"Cũng",e:"大卫也在看书吗？",c:"verb",l:13},{h:"都",p:"dōu",m:"all / both / every",v:"(Tất cả) đều",e:"我们都是中国人。",c:"verb",l:14},{h:"的",p:"de",m:"'s / of (particle)",v:"Của / trợ từ",e:"她是我的汉语老师。",c:"verb",l:4},{h:"吗",p:"ma",m:"yes/no question particle",v:"Trợ từ câu hỏi",e:"你是老师吗？",c:"verb",l:3},{h:"呢",p:"ne",m:"what about...? / ongoing",v:"Còn...thì sao? / Đang",e:"你呢？ / 我在看书呢。",c:"verb",l:4},{h:"吧",p:"ba",m:"suggestion / assumption",v:"Trợ từ gợi ý / nhẹ nhàng",e:"今天我们在家吃饭吧。",c:"verb",l:13},{h:"了",p:"le",m:"completion / change particle",v:"Trợ từ hoàn thành / biến đổi",e:"我去商店了。",c:"verb",l:5},{h:"啊",p:"a",m:"exclamation / emphasis",v:"Cảm thán",e:"是啊，她买了不少衣服。",c:"verb",l:14},{h:"给",p:"gěi",m:"to give; for (prep.)",v:"Cho; Giới từ",e:"我现在给她打电话吧。",c:"verb",l:13},{h:"跟",p:"gēn",m:"with / and (prep.)",v:"Cùng với",e:"你什么时候跟朋友去？",c:"verb",l:12},{h:"从",p:"cóng",m:"from",v:"Từ (nơi nào đó)",e:"我从越南来。",c:"verb",l:15},{h:"天气",p:"tiānqì",m:"weather",v:"Thời tiết",e:"明天天气怎么样？",c:"things",l:12},{h:"怎么样",p:"zěnmeyàng",m:"how? / what is it like?",v:"Như thế nào?",e:"明天天气怎么样？",c:"things",l:12},{h:"怎么",p:"zěnme",m:"how? (method)",v:"Làm sao / thế nào",e:"这个字怎么写？",c:"things",l:6},{h:"多少",p:"duōshào",m:"how much / how many (10+)",v:"Bao nhiêu (>10)",e:"这个杯子多少錢？",c:"things",l:8},{h:"几",p:"jǐ",m:"how many (under 10)",v:"Mấy (<10)",e:"你家有几口人？",c:"things",l:5},{h:"岁",p:"suì",m:"year(s) old",v:"Tuổi",e:"她今年二十岁了。",c:"things",l:5},{h:"身体",p:"shēntǐ",m:"body / health",v:"Cơ thể / sức khỏe",e:"你妈妈身体怎么样？",c:"things",l:12},{h:"东西",p:"dōngxi",m:"things / stuff",v:"Đồ / đồ đạc",e:"你买什么东西？",c:"things",l:14},{h:"一点儿",p:"yīdiǎnr",m:"a little / a few",v:"Một chút / một ít",e:"我买了一点儿苹果。",c:"things",l:14},{h:"一些",p:"yīxiē",m:"some (countable)",v:"Một vài",e:"一些人来了。",c:"things",l:12},{h:"是的",p:"shì de",m:"yes / that's right",v:"Đúng vậy",e:"是的，我是坐飞机来的。",c:"things",l:15},{h:"对",p:"duì",m:"correct / right",v:"Đúng",e:"对，我是李月。",c:"things",l:3},
+{h:"她们",p:"tāmen",m:"they (all female)",v:"Họ (toàn nữ)",e:"她们都是学生。",c:"pron",l:3},
+{h:"您好",p:"nín hǎo",m:"hello (formal)",v:"Xin chào (lịch sự)",e:"您好，请问您贵姓？",c:"ppl",l:3},
+{h:"大家好",p:"dàjiā hǎo",m:"hello everyone",v:"Chào mọi người",e:"大家好，我叫李月。",c:"ppl",l:3},
+{h:"不谢",p:"bú xiè",m:"you're welcome (short)",v:"Không có gì (ngắn)",e:"谢谢！不谢！",c:"ppl",l:3},
+{h:"拜拜",p:"báibái",m:"bye (informal)",v:"Tạm biệt (thân mật)",e:"拜拜！明天见！",c:"ppl",l:3},
+{h:"日语",p:"Rìyǔ",m:"Japanese language",v:"Tiếng Nhật",e:"她在学日语。",c:"things",l:3},
+{h:"兄弟姐妹",p:"xiōngdì jiěmèi",m:"siblings",v:"Anh chị em ruột",e:"你有兄弟姐妹吗？",c:"ppl",l:5},
+{h:"周",p:"zhōu",m:"week",v:"Tuần",e:"一周有七天。",c:"time",l:7},
+{h:"礼拜",p:"lǐbài",m:"week (colloquial)",v:"Tuần (thông thường)",e:"下礼拜我去北京。",c:"time",l:7},
+{h:"日",p:"rì",m:"date (formal/written)",v:"Ngày (văn viết)",e:"2024年7月1日，星期一。",c:"time",l:7},
+{h:"天",p:"tiān",m:"day",v:"Ngày",e:"一星期有七天。",c:"time",l:7},
+{h:"蔬菜",p:"shūcài",m:"vegetable",v:"Rau củ",e:"多吃蔬菜对身体好。",c:"food",l:6},
+{h:"生菜",p:"shēngcài",m:"lettuce",v:"Xà lách",e:"我喜欢吃生菜。",c:"food",l:6},
+{h:"大米",p:"dàmǐ",m:"uncooked rice",v:"Gạo",e:"大米很贵。",c:"food",l:8},
+{h:"河粉",p:"héfěn",m:"pho / rice noodle soup",v:"Phở / bún phở",e:"一碗河粉多少钱？",c:"food",l:8},
+{h:"肠粉",p:"chángfěn",m:"rice roll",v:"Bánh ướt",e:"我想吃一碟肠粉。",c:"food",l:8},
+{h:"饺子",p:"jiǎozi",m:"dumpling",v:"Sủi cảo",e:"我会做饺子。",c:"food",l:8},
+{h:"咖啡",p:"kāfēi",m:"coffee",v:"Cà phê",e:"你想喝咖啡吗？",c:"food",l:8},
+{h:"啤酒",p:"píjiǔ",m:"beer",v:"Bia",e:"爸爸喝啤酒。",c:"food",l:8},
+{h:"酒",p:"jiǔ",m:"alcohol / wine / liquor",v:"Rượu",e:"你喝酒吗？",c:"food",l:8},
+{h:"哈密瓜",p:"hāmìguā",m:"rock melon / cantaloupe",v:"Dưa lưới",e:"哈密瓜很甜。",c:"food",l:12},
+{h:"火龙果",p:"huǒlóngguǒ",m:"dragon fruit",v:"Thanh long",e:"火龙果很漂亮。",c:"food",l:12},
+{h:"橙子",p:"chéngzi",m:"orange",v:"Cam",e:"一个橙子多少钱？",c:"food",l:12},
+{h:"果汁",p:"guǒzhī",m:"fruit juice",v:"Nước ép hoa quả",e:"我想喝一杯果汁。",c:"food",l:12},
+{h:"好喝",p:"hǎohē",m:"tasty / nice (drinks)",v:"Ngon (đồ uống)",e:"这个茶很好喝。",c:"food",l:6},
+{h:"本子",p:"běnzi",m:"notebook",v:"Vở / quyển vở",e:"我有一本本子。",c:"things",l:7},
+{h:"词典",p:"cídiǎn",m:"dictionary",v:"Từ điển",e:"书包里有一本词典。",c:"things",l:7},
+{h:"笔记本电脑",p:"bǐjìběn diànnǎo",m:"laptop",v:"Máy tính xách tay",e:"我的笔记本电脑很贵。",c:"things",l:10},
+{h:"平板",p:"píngbǎn",m:"tablet",v:"Máy tính bảng",e:"我用平板看书。",c:"things",l:10},
+{h:"书包",p:"shūbāo",m:"backpack / school bag",v:"Ba lô / cặp sách",e:"书包里有什么？",c:"things",l:9},
+{h:"钱包",p:"qiánbāo",m:"wallet",v:"Ví tiền",e:"我的钱包在桌子上。",c:"things",l:9},
+{h:"说话",p:"shuōhuà",m:"to talk / speak",v:"Nói chuyện",e:"他们在说话呢。",c:"verb",l:6},
+{h:"干",p:"gàn",m:"to do (physical work)",v:"Làm (việc tay chân)",e:"你在干什么？",c:"verb",l:8},
+{h:"要",p:"yào",m:"want / need / will",v:"Muốn / cần / sẽ",e:"我要一杯咖啡。",c:"verb",l:8},
+{h:"站",p:"zhàn",m:"to stand",v:"Đứng",e:"请站起来。",c:"verb",l:10},
+{h:"躺",p:"tǎng",m:"to lie down",v:"Nằm",e:"他躺在床上。",c:"verb",l:10},
+{h:"上",p:"shàng",m:"up / on (direction)",v:"Trên (hướng)",e:"请上车。",c:"place",l:9},
+{h:"下",p:"xià",m:"down / under (direction)",v:"Dưới (hướng)",e:"请下车。",c:"place",l:9},
+{h:"里",p:"lǐ",m:"inside",v:"Trong",e:"书包里有什么？",c:"place",l:9},
+{h:"外",p:"wài",m:"outside",v:"Ngoài",e:"外面很冷。",c:"place",l:9},
+{h:"左",p:"zuǒ",m:"left",v:"Trái",e:"商店在左边。",c:"place",l:9},
+{h:"右",p:"yòu",m:"right",v:"Phải",e:"图书馆在右边。",c:"place",l:9},
+{h:"旁",p:"páng",m:"beside / next to",v:"Bên cạnh",e:"我坐在他旁边。",c:"place",l:9},
+{h:"边",p:"biān",m:"side",v:"Bên",e:"左边还是右边？",c:"place",l:9},
+{h:"中",p:"zhōng",m:"middle / center",v:"Giữa / trung tâm",e:"桌子在中间。",c:"place",l:9}];
+var MW=[{q:"一 ___ 书\n(a book)",ex:"我有一本汉语书。",py:"本 (běn)",o:["本 (běn)", "个 (gè)", "口 (kǒu)", "块 (kuài)"],a:"本 (běn)",xen:"本 běn — for books, notebooks, magazines",xvi:"本 běn — dùng cho sách, vở, tạp chí"},{q:"我家有三 ___ 人\n(family members)",ex:"我家有三口人。",py:"口 (kǒu)",o:["口 (kǒu)", "个 (gè)", "本 (běn)", "张 (zhāng)"],a:"口 (kǒu)",xen:"口 kǒu — counts people in a family",xvi:"kǒu — đếm số người trong gia đình"},{q:"一 ___ 杯子\n(a cup)",ex:"桌子上有一个杯子。",py:"个 (gè)",o:["个 (gè)", "本 (běn)", "口 (kǒu)", "双 (shuāng)"],a:"个 (gè)",xen:"个 gè — default measure word for most objects",xvi:"gè — lượng từ mặc định cho hầu hết đồ vật"},{q:"一 ___ 汉语书\n(a textbook)",ex:"我有一本汉语书。",py:"本 (běn)",o:["本 (běn)", "个 (gè)", "张 (zhāng)", "条 (tiáo)"],a:"本 (běn)",xen:"本 běn — for books, textbooks, notebooks",xvi:"běn — dùng cho sách giáo khoa, vở"},{q:"一 ___ 车\n(a car)",ex:"他有一辆车。",py:"辆 (liàng)",o:["辆 (liàng)", "个 (gè)", "本 (běn)", "把 (bǎ)"],a:"辆 (liàng)",xen:"辆 liàng — for wheeled vehicles (car, bike, bus)",xvi:"liàng — dùng cho xe có bánh (ô tô, xe đạp, xe buýt)"},{q:"一 ___ 香蕉\n(one banana)",ex:"我想吃一根香蕉。",py:"根 (gēn)",o:["根 (gēn)", "个 (gè)", "串 (chuàn)", "把 (bǎ)"],a:"根 (gēn)",xen:"根 gēn — for single long slender items (one banana, one hair)",xvi:"gēn — cho một vật dài mỏng (một quả chuối, một sợi tóc)"},{q:"一 ___ 葡萄\n(a bunch of grapes)",ex:"我买了一串葡萄。",py:"串 (chuàn)",o:["串 (chuàn)", "个 (gè)", "粒 (lì)", "根 (gēn)"],a:"串 (chuàn)",xen:"串 chuàn — for bunches/clusters (grapes, keys on a ring, skewers)",xvi:"chuàn — cho chùm/cụm (nho, chùm chìa khóa, que xiên)"},{q:"一 ___ 葡萄\n(a single grape)",ex:"我只吃了一粒葡萄。",py:"粒 (lì)",o:["粒 (lì)", "串 (chuàn)", "根 (gēn)", "个 (gè)"],a:"粒 (lì)",xen:"粒 lì — for small round items (one grape, one grain of rice, one pill)",xvi:"lì — cho vật tròn nhỏ (một hạt nho, một hạt gạo, một viên thuốc)"},{q:"一 ___ 西瓜\n(a slice of watermelon)",ex:"我想吃一块西瓜。",py:"块 (kuài)",o:["块 (kuài)", "个 (gè)", "斤 (jīn)", "份 (fèn)"],a:"块 (kuài)",xen:"块 kuài — for chunks/pieces; also \"yuan\" (money: 十八块 = 18 yuan)",xvi:"kuài — cho miếng/mảnh; cũng là \"đồng tệ\" (十八块 = 18 tệ)"},{q:"一 ___ 茶\n(a cup of tea)",ex:"请喝一杯茶。",py:"杯 (bēi)",o:["杯 (bēi)", "瓶 (píng)", "罐 (guàn)", "碗 (wǎn)"],a:"杯 (bēi)",xen:"杯 bēi — for cup/glass-sized drinks (tea, coffee, juice)",xvi:"bēi — dùng cho đồ uống cỡ ly (trà, cà phê, nước ép)"},{q:"一 ___ 可乐\n(a can of cola)",ex:"我要一罐可乐。",py:"罐 (guàn)",o:["罐 (guàn)", "杯 (bēi)", "瓶 (píng)", "碗 (wǎn)"],a:"罐 (guàn)",xen:"罐 guàn — for cans (cola, beer, canned food)",xvi:"guàn — dùng cho lon (nước ngọt, bia, đồ hộp)"},{q:"一 ___ 水\n(a bottle of water)",ex:"请给我一瓶水。",py:"瓶 (píng)",o:["瓶 (píng)", "杯 (bēi)", "罐 (guàn)", "碗 (wǎn)"],a:"瓶 (píng)",xen:"瓶 píng — for bottles (water, wine, sauce)",xvi:"píng — dùng cho chai (nước, rượu, nước sốt)"},{q:"一 ___ 米饭\n(a bowl of rice)",ex:"我想吃一碗米饭。",py:"碗 (wǎn)",o:["碗 (wǎn)", "盘 (pán)", "碟 (dié)", "份 (fèn)"],a:"碗 (wǎn)",xen:"碗 wǎn — for bowls (rice, noodles, soup)",xvi:"wǎn — dùng cho bát/tô (cơm, mì, súp)"},{q:"一 ___ 裤子\n(a pair of trousers)",ex:"他买了一条裤子。",py:"条 (tiáo)",o:["条 (tiáo)", "件 (jiàn)", "双 (shuāng)", "套 (tào)"],a:"条 (tiáo)",xen:"条 tiáo — for trousers, skirts, fish, rivers, roads (long flexible things)",xvi:"tiáo — cho quần, váy, cá, sông, đường (vật dài mềm)"},{q:"一 ___ 上衣\n(a top / shirt)",ex:"这件上衣很漂亮。",py:"件 (jiàn)",o:["件 (jiàn)", "条 (tiáo)", "双 (shuāng)", "套 (tào)"],a:"件 (jiàn)",xen:"件 jiàn — for upper garments (shirts, jackets); also for matters/issues",xvi:"jiàn — cho áo (quần áo trên); cũng dùng cho \"việc\" (một việc)"},{q:"一 ___ 鞋子\n(a pair of shoes)",ex:"这双鞋子多少钱？",py:"双 (shuāng)",o:["双 (shuāng)", "条 (tiáo)", "件 (jiàn)", "个 (gè)"],a:"双 (shuāng)",xen:"双 shuāng — for paired items (shoes, socks, gloves, chopsticks)",xvi:"shuāng — cho vật thành đôi (giày, tất, găng tay, đũa)"},{q:"一 ___ 伞\n(an umbrella)",ex:"我有一把伞。",py:"把 (bǎ)",o:["把 (bǎ)", "个 (gè)", "条 (tiáo)", "件 (jiàn)"],a:"把 (bǎ)",xen:"把 bǎ — for objects with handles (umbrella, chair, knife, scissors)",xvi:"bǎ — cho vật có tay cầm (ô, ghế, dao, kéo)"},{q:"一 ___ 椅子\n(a chair)",ex:"请坐这把椅子。",py:"把 (bǎ)",o:["把 (bǎ)", "个 (gè)", "张 (zhāng)", "条 (tiáo)"],a:"把 (bǎ)",xen:"把 bǎ — also for chairs (has a \"handle\"/back)",xvi:"bǎ — cũng dùng cho ghế (có tay cầm/lưng ghế)"},{q:"一 ___ 笔\n(a pen)",ex:"一支笔多少钱？",py:"支 (zhī)",o:["支 (zhī)", "个 (gè)", "根 (gēn)", "条 (tiáo)"],a:"支 (zhī)",xen:"支 zhī — for slender stick-like objects (pen, pencil, candle, injection)",xvi:"zhī — cho vật hình que, dài mỏng (bút, nến, mũi tiêm)"},{q:"一 ___ 菜\n(a dish of food)",ex:"这顿饭有三道菜。",py:"道 (dào)",o:["道 (dào)", "个 (gè)", "份 (fèn)", "碟 (dié)"],a:"道 (dào)",xen:"道 dào — for dishes in a meal (a menu item/course)",xvi:"dào — cho món ăn trong bữa (một món trong thực đơn)"},{q:"一 ___ 电影\n(a film)",ex:"昨天我看了一部电影。",py:"部 (bù)",o:["部 (bù)", "个 (gè)", "场 (chǎng)", "条 (tiáo)"],a:"部 (bù)",xen:"部 bù — for films, phones, novels, works of art",xvi:"bù — cho phim, điện thoại, tiểu thuyết, tác phẩm nghệ thuật"},{q:"一 ___ 大雨\n(a heavy rain)",ex:"昨天下了一场大雨。",py:"场 (chǎng)",o:["场 (chǎng)", "个 (gè)", "次 (cì)", "条 (tiáo)"],a:"场 (chǎng)",xen:"场 chǎng — for events, performances, sports, weather episodes",xvi:"chǎng — cho sự kiện, buổi biểu diễn, thể thao, đợt thời tiết"},{q:"一 ___ 衣服\n(a set / outfit)",ex:"她买了一套衣服。",py:"套 (tào)",o:["套 (tào)", "件 (jiàn)", "条 (tiáo)", "双 (shuāng)"],a:"套 (tào)",xen:"套 tào — for complete sets / outfits (suit, bedding set, books in a series)",xvi:"tào — cho bộ đồ hoàn chỉnh (comple, bộ chăn ga, bộ sách)"},{q:"一 ___ 香蕉\n(a bunch of bananas)",ex:"妈妈买了一把香蕉。",py:"把 (bǎ)",o:["把 (bǎ)", "根 (gēn)", "串 (chuàn)", "个 (gè)"],a:"把 (bǎ)",xen:"把 bǎ — for a bunch of bananas (held together as a group)",xvi:"bǎ — cho nải chuối (cầm cả nải cùng nhau)"},{q:"块 (kuài) — what does it mean as MONEY?",ex:"那件上衣十八块钱。",py:"kuài = yuan",o:["Yuan (spoken 元)", "Phút (minute)", "Năm (year)", "Kilogram"],a:"Yuan (spoken 元)",xen:"kuài is the spoken form of 元 (yuan). e.g. 十八块 = 18 yuan (spoken). Also means \"piece/chunk\" for objects.",xvi:"kuài là cách nói thông thường của 元 (tệ). Vd: 十八块 = 18 tệ. Cũng có nghĩa là \"miếng/mảnh\" cho đồ vật."},
+{q:"一 ___ 苹果\n(an apple)",ex:"我买了三个苹果。",py:"个 (gè)",o:["个 (gè)", "粒 (lì)", "根 (gēn)", "串 (chuàn)"],a:"个 (gè)",xen:"个 gè — default for round fruits (apple, orange, pear, mango)",xvi:"gè — lượng từ mặc định cho trái cây tròn (táo, cam, lê, xoài)"},
+{q:"一 ___ 问题\n(a question/problem)",ex:"我有一个问题。",py:"个 (gè)",o:["个 (gè)", "件 (jiàn)", "条 (tiáo)", "道 (dào)"],a:"个 (gè)",xen:"个 gè — also used for abstract things: problem, idea, plan",xvi:"gè — cũng dùng cho khái niệm trừu tượng: vấn đề, ý tưởng, kế hoạch"},
+{q:"一 ___ 纸\n(a piece of paper)",ex:"请给我一张纸。",py:"张 (zhāng)",o:["张 (zhāng)", "本 (běn)", "页 (yè)", "份 (fèn)"],a:"张 (zhāng)",xen:"张 zhāng — for flat, sheet-like things: paper, table, ticket, map, face",xvi:"zhāng — cho vật phẳng, dạng tờ: giấy, bàn, vé, bản đồ, khuôn mặt"},
+{q:"一 ___ 桌子\n(a table)",ex:"教室里有六张桌子。",py:"张 (zhāng)",o:["张 (zhāng)", "个 (gè)", "把 (bǎ)", "条 (tiáo)"],a:"张 (zhāng)",xen:"张 zhāng — for tables and desks (flat surface objects)",xvi:"zhāng — cho bàn (vật có bề mặt phẳng)"},
+{q:"一 ___ 票\n(a ticket)",ex:"我买了两张票。",py:"张 (zhāng)",o:["张 (zhāng)", "个 (gè)", "本 (běn)", "份 (fèn)"],a:"张 (zhāng)",xen:"张 zhāng — for tickets, cards, photos (flat paper-like things)",xvi:"zhāng — cho vé, thẻ, ảnh (vật phẳng dạng giấy)"},
+{q:"一 ___ 猫\n(a cat)",ex:"我家有一只猫。",py:"只 (zhī)",o:["只 (zhī)", "个 (gè)", "条 (tiáo)", "匹 (pǐ)"],a:"只 (zhī)",xen:"只 zhī — for small animals: cat, dog, bird, rabbit, fish",xvi:"只 zhī — cho động vật nhỏ: mèo, chó, chim, thỏ, cá"},
+{q:"一 ___ 狗\n(a dog)",ex:"他有一只小狗。",py:"只 (zhī)",o:["只 (zhī)", "个 (gè)", "条 (tiáo)", "头 (tóu)"],a:"只 (zhī)",xen:"只 zhī — for dogs and most small-medium animals",xvi:"只 zhī — cho chó và hầu hết động vật nhỏ-vừa"},
+{q:"一 ___ 鱼\n(a fish)",ex:"妈妈买了一条鱼。",py:"条 (tiáo)",o:["条 (tiáo)", "只 (zhī)", "个 (gè)", "尾 (wěi)"],a:"条 (tiáo)",xen:"条 tiáo — for fish (long flexible body); also rivers, roads, trousers, skirts",xvi:"tiáo — cho cá (thân dài, mềm); cũng dùng cho sông, đường, quần, váy"},
+{q:"一 ___ 河\n(a river)",ex:"这条河很长。",py:"条 (tiáo)",o:["条 (tiáo)", "个 (gè)", "片 (piàn)", "道 (dào)"],a:"条 (tiáo)",xen:"条 tiáo — for rivers, roads, streets, news items (long strip-like things)",xvi:"tiáo — cho sông, đường, tin tức (vật dài dạng dải)"},
+{q:"一 ___ 蛋糕\n(a slice of cake)",ex:"请吃一块蛋糕。",py:"块 (kuài)",o:["块 (kuài)", "个 (gè)", "份 (fèn)", "片 (piàn)"],a:"块 (kuài)",xen:"块 kuài — for slices/chunks: cake, bread, chocolate, meat",xvi:"kuài — cho miếng/lát: bánh, bánh mì, sô cô la, thịt"},
+{q:"一 ___ 面包\n(a slice of bread)",ex:"我吃了一片面包。",py:"片 (piàn)",o:["片 (piàn)", "块 (kuài)", "个 (gè)", "份 (fèn)"],a:"片 (piàn)",xen:"片 piàn — for thin flat slices: bread, meat, leaf, pill (tablet form)",xvi:"piàn — cho lát mỏng phẳng: bánh mì, thịt, lá, viên thuốc dạng lát"},
+{q:"一 ___ 套餐\n(a set meal)",ex:"我要一份套餐。",py:"份 (fèn)",o:["份 (fèn)", "个 (gè)", "道 (dào)", "碗 (wǎn)"],a:"份 (fèn)",xen:"份 fèn — for portions/servings of food; also copies of documents",xvi:"fèn — cho phần/suất đồ ăn; cũng dùng cho bản/tờ tài liệu"},
+{q:"一 ___ (one time / once)",ex:"我去过中国一次。",py:"次 (cì)",o:["次 (cì)", "个 (gè)", "回 (huí)", "遍 (biàn)"],a:"次 (cì)",xen:"次 cì — for times/occurrences: once, twice, three times",xvi:"cì — cho số lần xảy ra: một lần, hai lần, ba lần"},
+{q:"一 ___ 老师\n(a teacher, politely)",ex:"班里有一位老师。",py:"位 (wèi)",o:["位 (wèi)", "个 (gè)", "名 (míng)", "人 (rén)"],a:"位 (wèi)",xen:"位 wèi — polite measure word for people (more respectful than 个)",xvi:"wèi — lượng từ lịch sự cho người (trang trọng hơn 个)"},
+{q:"一 ___ 筷子\n(a pair of chopsticks)",ex:"请给我一双筷子。",py:"双 (shuāng)",o:["双 (shuāng)", "根 (gēn)", "对 (duì)", "副 (fù)"],a:"双 (shuāng)",xen:"双 shuāng — for naturally paired items: chopsticks, socks, eyes, hands",xvi:"shuāng — cho vật thành đôi tự nhiên: đũa, tất, mắt, tay"},
+{q:"一 ___ 杂志\n(a magazine)",ex:"我买了一本杂志。",py:"本 (běn)",o:["本 (běn)", "张 (zhāng)", "份 (fèn)", "册 (cè)"],a:"本 (běn)",xen:"本 běn — for magazines, comics, albums (bound/paginated publications)",xvi:"běn — cho tạp chí, truyện tranh, album (ấn phẩm đóng trang)"},
+{q:"一 ___ 事\n(a matter/affair)",ex:"我有一件事要告诉你。",py:"件 (jiàn)",o:["件 (jiàn)", "个 (gè)", "条 (tiáo)", "项 (xiàng)"],a:"件 (jiàn)",xen:"件 jiàn — for matters/affairs/items (一件事 = one matter; 一件衣服 = one garment)",xvi:"jiàn — cho việc/sự vụ (一件事 = một việc; 一件衣服 = một bộ quần áo)"},
+{q:"一 ___ 苹果 (500 grams)",ex:"苹果两块钱一斤。",py:"斤 (jīn)",o:["斤 (jīn)", "公斤 (gōngjīn)", "克 (kè)", "两 (liǎng)"],a:"斤 (jīn)",xen:"斤 jīn — Chinese unit = 500g. Very common in markets. 一斤苹果 = 500g of apples",xvi:"jīn — đơn vị Trung Quốc = 500g. Rất phổ biến ở chợ. 一斤苹果 = 500g táo"},
+{q:"一 ___ 房间\n(a room)",ex:"这个旅馆有一百间房间。",py:"间 (jiān)",o:["间 (jiān)", "个 (gè)", "套 (tào)", "层 (céng)"],a:"间 (jiān)",xen:"间 jiān — for rooms (bedroom, classroom, office, shop)",xvi:"jiān — cho phòng (phòng ngủ, lớp học, văn phòng, cửa hàng)"},
+{q:"一 ___ 学校\n(a school)",ex:"我们城市有三所大学。",py:"所 (suǒ)",o:["所 (suǒ)", "个 (gè)", "家 (jiā)", "座 (zuò)"],a:"所 (suǒ)",xen:"所 suǒ — for schools, hospitals, houses (institutions/buildings)",xvi:"suǒ — cho trường học, bệnh viện, nhà ở (tổ chức/công trình)"},
+{q:"一 ___ 商店\n(a shop)",ex:"这条街有很多家商店。",py:"家 (jiā)",o:["家 (jiā)", "个 (gè)", "所 (suǒ)", "间 (jiān)"],a:"家 (jiā)",xen:"家 jiā — for shops, restaurants, companies, hotels (business establishments)",xvi:"jiā — cho cửa hàng, nhà hàng, công ty, khách sạn (cơ sở kinh doanh)"},
+{q:"一 ___ 自行车\n(a bicycle)",ex:"他有一辆自行车。",py:"辆 (liàng)",o:["辆 (liàng)", "个 (gè)", "架 (jià)", "匹 (pǐ)"],a:"辆 (liàng)",xen:"辆 liàng — for all wheeled vehicles: bicycle, car, bus, truck",xvi:"liàng — cho tất cả xe có bánh: xe đạp, ô tô, xe buýt, xe tải"},
+{q:"一 ___ 飞机\n(an airplane)",ex:"机场有三架飞机。",py:"架 (jià)",o:["架 (jià)", "辆 (liàng)", "艘 (sōu)", "个 (gè)"],a:"架 (jià)",xen:"架 jià — for aircraft and large machines mounted on a frame",xvi:"jià — cho máy bay và máy móc lớn gắn trên khung"},
+{q:"一 ___ 饭\n(a meal)",ex:"我一天吃三顿饭。",py:"顿 (dùn)",o:["顿 (dùn)", "个 (gè)", "碗 (wǎn)", "份 (fèn)"],a:"顿 (dùn)",xen:"顿 dùn — for meals: 一顿饭 = one meal. 三顿饭 = three meals (a day)",xvi:"dùn — cho bữa ăn: 一顿饭 = một bữa ăn. 三顿饭 = ba bữa (một ngày)"},
+{q:"Which MW for a FISH?",ex:"妈妈买了一条鱼。",py:"条 (tiáo)",o:["条 (tiáo)", "只 (zhī)", "尾 (wěi)", "个 (gè)"],a:"条 (tiáo)",xen:"条 tiáo for fish (long body). Note: 只 zhī is also acceptable in some dialects",xvi:"tiáo cho cá (thân dài). Lưu ý: 只 zhī cũng được chấp nhận ở một số phương ngữ"},
+{q:"Which MW for a SMALL ANIMAL (cat/dog/bird)?",ex:"我家有一只猫和一只狗。",py:"只 (zhī)",o:["只 (zhī)", "个 (gè)", "匹 (pǐ)", "头 (tóu)"],a:"只 (zhī)",xen:"只 zhī — the standard MW for small-medium animals (cats, dogs, birds, rabbits)",xvi:"zhī — lượng từ chuẩn cho động vật nhỏ-vừa (mèo, chó, chim, thỏ)"},
+{q:"一 ___ 饼干\n(a box of biscuits)",ex:"这盒饼干很好吃。",py:"盒 (hé)",o:["盒 (hé)", "箱 (xiāng)", "包 (bāo)", "个 (gè)"],a:"盒 (hé)",xen:"盒 hé — for small boxes/tins: biscuits, chocolates, mooncakes",xvi:"盒 hé — cho hộp nhỏ: bánh quy, sô cô la, bánh trung thu"},
+{q:"一 ___ 苹果\n(a carton/case of apples)",ex:"我买了一箱苹果。",py:"箱 (xiāng)",o:["箱 (xiāng)", "盒 (hé)", "袋 (dài)", "个 (gè)"],a:"箱 (xiāng)",xen:"箱 xiāng — for cartons/large boxes: a case of apples, a box of beer",xvi:"xiāng — cho thùng/hộp lớn: thùng táo, thùng bia"},
+{q:"一 ___ 肠粉\n(a plate of rice rolls)",ex:"我要一碟肠粉。",py:"碟 (dié)",o:["碟 (dié)", "碗 (wǎn)", "盘 (pán)", "份 (fèn)"],a:"碟 (dié)",xen:"碟 dié — for small plates/saucers: dim sum, side dishes",xvi:"dié — cho đĩa nhỏ: dimsum, món ăn kèm"},
+{q:"一 ___ 炒饭\n(a plate of fried rice)",ex:"请给我一盘炒饭。",py:"盘 (pán)",o:["盘 (pán)", "碟 (dié)", "碗 (wǎn)", "份 (fèn)"],a:"盘 (pán)",xen:"盘 pán — for large plates/platters: fried rice, stir-fry dishes",xvi:"pán — cho đĩa lớn: cơm chiên, món xào"},
+{q:"一 ___ 牛\n(a cow / large animal)",ex:"农场有一头牛。",py:"头 (tóu)",o:["头 (tóu)", "只 (zhī)", "条 (tiáo)", "个 (gè)"],a:"头 (tóu)",xen:"头 tóu — for large animals: cow, horse, elephant, pig, donkey",xvi:"tóu — cho động vật lớn: bò, ngựa, voi, lợn, lừa"},
+{q:"一 ___ 电视\n(a television / appliance)",ex:"家里有一台电视。",py:"台 (tái)",o:["台 (tái)", "个 (gè)", "部 (bù)", "架 (jià)"],a:"台 (tái)",xen:"台 tái — for machines/appliances: TV, computer, washing machine, air conditioner",xvi:"tái — cho máy móc/thiết bị: tivi, máy tính, máy giặt, điều hòa"},
+{q:"一 ___ 眼镜\n(a pair of glasses)",ex:"我买了一副眼镜。",py:"副 (fù)",o:["副 (fù)", "个 (gè)", "双 (shuāng)", "对 (duì)"],a:"副 (fù)",xen:"副 fù — for glasses, gloves (things that come as a set/pair worn on face)",xvi:"fù — cho kính mắt, găng tay (vật thành bộ đeo trên mặt)"}];
+var TR=[{e:"I am a student.",v:"Tôi là học sinh.",a:"我是学生。",h:"S + 是 + N"},{e:"She is not a teacher, she is a student.",v:"Cô ấy không phải giáo viên, cô ấy là học sinh.",a:"她不是老师，她是学生。",h:"S + 不是 + N"},{e:"Are you a doctor?",v:"Bạn có phải bác sĩ không?",a:"你是医生吗？",h:"吗 question"},{e:"Is she your friend?",v:"Cô ấy là bạn của bạn phải không?",a:"她是你朋友吗？",h:"吗 question"},{e:"He is not Chinese, he is American.",v:"Anh ấy không phải người Trung Quốc, anh ấy là người Mỹ.",a:"他不是中国人，他是美国人。",h:"不是"},{e:"This is my book.",v:"Đây là sách của tôi.",a:"这是我的书。",h:"的 (possession)"},{e:"Who is your Chinese teacher?",v:"Ai là giáo viên tiếng Trung của bạn?",a:"谁是你的汉语老师？",h:"谁 (who)"},{e:"Which country are you from?",v:"Bạn là người nước nào?",a:"你是哪国人？",h:"哪 (which)"},{e:"She is Vietnamese. What about you?",v:"Cô ấy là người Việt Nam. Còn bạn?",a:"她是越南人，你呢？",h:"呢 particle"},{e:"My family has five people.",v:"Nhà tôi có năm người.",a:"我家有五口人。",h:"有 + 口"},{e:"There is no one here.",v:"Ở đây không có ai.",a:"这儿没有人。",h:"没有"},{e:"How many people are in your family?",v:"Nhà bạn có mấy người?",a:"你家有几口人？",h:"几 (how many)"},{e:"Her daughter is twenty years old this year.",v:"Con gái cô ấy năm nay hai mươi tuổi.",a:"她女儿今年二十岁了。",h:"岁 + 了 (age)"},{e:"How old are you this year?",v:"Năm nay bạn bao nhiêu tuổi?",a:"你今年多大了？",h:"多大 (how old)"},{e:"Can you speak Chinese?",v:"Bạn có biết nói tiếng Trung không?",a:"你会说汉语吗？",h:"会 (skill)"},{e:"I can write Chinese characters.",v:"Tôi biết viết chữ Hán.",a:"我会写汉字。",h:"会 (skill)"},{e:"My mom cannot cook Chinese food.",v:"Mẹ tôi không biết nấu đồ ăn Trung Quốc.",a:"我妈妈不会做中国菜。",h:"不会"},{e:"How do you write this character?",v:"Chữ này viết như thế nào?",a:"这个字怎么写？",h:"怎么 (how)"},{e:"Chinese food is very delicious.",v:"Đồ ăn Trung Quốc rất ngon.",a:"中国菜很好吃。",h:"Adj predicate"},{e:"This film is not very good.",v:"Bộ phim này không hay lắm.",a:"这部电影不太好看。",h:"不太"},{e:"I want to drink tea.",v:"Tôi muốn uống trà.",a:"我想喝茶。",h:"想 (want to)"},{e:"Tomorrow I want to go to the bookshop.",v:"Ngày mai tôi muốn đi nhà sách.",a:"明天我想去书店。",h:"想 + 去"},{e:"I do not want to go to school today.",v:"Hôm nay tôi không muốn đi học.",a:"我今天不想去学校。",h:"不想"},{e:"How much is this cup?",v:"Cái cốc này bao nhiêu tiền?",a:"这个杯子多少钱？",h:"多少钱"},{e:"I am going to the library to read.",v:"Tôi đi thư viện để đọc sách.",a:"我去图书馆看书。",h:"去 + V (serial verb)"},{e:"Let's go to the restaurant to eat.",v:"Chúng ta đi nhà hàng ăn cơm nhé.",a:"我们去饭馆吃饭吧。",h:"吧 suggestion"},{e:"The cat is under the chair.",v:"Con mèo ở dưới ghế.",a:"猫在椅子下面。",h:"在 (location)"},{e:"Where is your wallet?",v:"Ví của bạn ở đâu?",a:"你的钱包在哪儿？",h:"在哪儿"},{e:"My son works at a hospital.",v:"Con trai tôi làm việc ở bệnh viện.",a:"我儿子在医院工作。",h:"在 + place + V"},{e:"What are you doing right now?",v:"Bây giờ bạn đang làm gì vậy?",a:"你现在在做什么呢？",h:"在…呢 (progressive)"},{e:"He is cooking Chinese food.",v:"Anh ấy đang nấu đồ ăn Trung Quốc.",a:"他在做中国菜呢。",h:"在…呢"},{e:"I was not sleeping, I was reading.",v:"Tôi không ngủ, tôi đang đọc sách.",a:"我没在睡觉，我在看书。",h:"没在"},{e:"What time is it now?",v:"Bây giờ là mấy giờ?",a:"现在几点？",h:"几点 (time)"},{e:"It is half past six.",v:"Bây giờ là sáu giờ rưỡi.",a:"现在六点半。",h:"半 (half past)"},{e:"I go to bed at eleven every night.",v:"Mỗi tối tôi đi ngủ lúc mười một giờ.",a:"我每天晚上十一点睡觉。",h:"time adverbial"},{e:"What time do you start work?",v:"Bạn mấy giờ bắt đầu làm việc?",a:"你几点上班？",h:"几点"},{e:"Can you be home before five?",v:"Bạn có thể về nhà trước năm giờ không?",a:"你五点前能回家吗？",h:"前 + 能"},{e:"He will be back in 30 minutes.",v:"Ba mươi phút nữa anh ấy sẽ quay lại.",a:"他三十分钟后回来。",h:"后 (after)"},{e:"What are you doing after class today?",v:"Hôm nay tan học bạn làm gì?",a:"你今天下课后做什么？",h:"后 (after)"},{e:"When are you going to Beijing?",v:"Bạn khi nào đi Bắc Kinh?",a:"你什么时候去北京？",h:"什么时候"},{e:"Today is September 1st, Wednesday.",v:"Hôm nay là mùng một tháng chín, thứ Tư.",a:"今天是九月一号，星期三。",h:"date expression"},{e:"What is the weather like tomorrow?",v:"Thời tiết ngày mai như thế nào?",a:"明天天气怎么样？",h:"怎么样"},{e:"The weather is too cold today.",v:"Hôm nay thời tiết quá lạnh.",a:"今天天气太冷了。",h:"太…了"},{e:"It will not rain today.",v:"Hôm nay trời sẽ không mưa.",a:"今天不会下雨。",h:"会 (prediction)"},{e:"I went to the shop to buy things.",v:"Tôi đã đi cửa hàng mua đồ.",a:"我去商店买东西了。",h:"了 (completed)"},{e:"She bought quite a lot of clothes.",v:"Cô ấy đã mua khá nhiều quần áo.",a:"她买了不少衣服。",h:"了 + quantity"},{e:"Did you see Mr. Zhang?",v:"Bạn có nhìn thấy ông Trương không?",a:"你看见张先生了吗？",h:"了 question"},{e:"I did not buy anything.",v:"Tôi không mua gì cả.",a:"我没买东西。",h:"没 (negation)"},{e:"We all like drinking tea.",v:"Chúng tôi đều thích uống trà.",a:"我们都喜欢喝茶。",h:"都 (all)"},{e:"Let me call her now.",v:"Để tôi gọi điện cho cô ấy bây giờ nhé.",a:"我现在给她打电话吧。",h:"给 + 吧"},{e:"Hello, what are you doing?",v:"A-lô, bạn đang làm gì vậy?",a:"喂，你在做什么呢？",h:"喂 (phone hello)"},{e:"Can I sit here?",v:"Tôi có thể ngồi ở đây không?",a:"我能坐这儿吗？",h:"能 (permission)"},{e:"Please sit down.",v:"Xin mời ngồi.",a:"请坐。",h:"请 (imperative)"},{e:"When are you going to the cinema with your friends?",v:"Bạn khi nào đi xem phim với bạn bè?",a:"你什么时候跟朋友去看电影？",h:"跟 + 一起"},{e:"I came by plane.",v:"Tôi đến bằng máy bay.",a:"我是坐飞机来的。",h:"是…的"},{e:"They met at school.",v:"Họ quen nhau ở trường.",a:"他们是在学校认识的。",h:"是…的 (place)"},{e:"When did you arrive?",v:"Bạn đến lúc nào vậy?",a:"你是什么时候来的？",h:"是…的 (time)"},{e:"How did you get to the restaurant?",v:"Bạn đến nhà hàng bằng gì?",a:"你们是怎么来饭店的？",h:"是…的 (manner)"},{e:"She is my university classmate.",v:"Cô ấy là bạn cùng lớp đại học của tôi.",a:"她是我大学同学。",h:"大学"},{e:"Very glad to meet you!",v:"Rất vui được quen biết bạn!",a:"很高兴认识你！",h:"高兴 + 认识"},{e:"I like listening to music.",v:"Tôi thích nghe nhạc.",a:"我喜欢听音乐。",h:"喜欢 + V"},{e:"She loves eating fruit.",v:"Cô ấy rất thích ăn trái cây.",a:"她爱吃水果。",h:"爱 + V"},{e:"The cat is on top of the table.",v:"Con mèo ở trên bàn.",a:"猫在桌子上面。",h:"上面"},{e:"Opposite the school is a library.",v:"Đối diện trường học là thư viện.",a:"学校对面是图书馆。",h:"对面"},{e:"I am going to Beijing on Monday.",v:"Thứ Hai tôi đi Bắc Kinh.",a:"我星期一去北京。",h:"time + 去"}];
+var GR=[{l:3,s:"S + 是 + N",m:"To be: affirmative statement",mv:"Câu khẳng định với \"là\"",en:"Use 是 (shì) to say what something/someone IS. No conjugation needed.",vi:"Dùng 是 để nói điều gì đó LÀ gì. Không chia động từ.",e1:"我是学生。(I am a student.)",e2:"她是我的汉语老师。(She is my Chinese teacher.)"},{l:3,s:"S + 不是 + N",m:"To be: negative — \"is not\"",mv:"Câu phủ định với \"không là\"",en:"Negate 是 with 不 (bù). Note: 不 changes tone to bú before 4th tone.",vi:"Phủ định 是 bằng cách thêm 不. Lưu ý: 不 đổi thanh thành bú trước thanh 4.",e1:"我不是老师。(I am not a teacher.)",e2:"他不是中国人。(He is not Chinese.)"},{l:3,s:"S + 是 + N + 吗？",m:"Yes/no question with 吗",mv:"Câu hỏi có/không với 吗",en:"Add 吗 (ma) to the end of a statement to make a yes/no question. No word order change needed.",vi:"Thêm 吗 vào cuối câu khẳng định để tạo câu hỏi. Không cần đảo vị trí từ.",e1:"你是老师吗？(Are you a teacher?)",e2:"她是学生吗？(Is she a student?)"},{l:3,s:"S + V + 什么？",m:"\"什么\" (shénme) = what",mv:"Câu hỏi với \"什么\" = gì / cái gì",en:"什么 is a question pronoun meaning \"what\". It stays in the same position as the answer would be.",vi:"什么 là đại từ nghi vấn nghĩa là \"gì\". Nó đứng ở vị trí mà câu trả lời sẽ nằm.",e1:"你叫什么名字？(What is your name?)",e2:"这是什么？(What is this?)"},{l:4,s:"谁 + V / S + V + 谁",m:"\"谁\" (shéi) = who",mv:"Câu hỏi với \"谁\" = ai",en:"谁 means \"who\". Like 什么, it occupies the position of the answer in the sentence.",vi:"谁 có nghĩa là \"ai\". Giống 什么, nó đứng ở vị trí của câu trả lời.",e1:"她是谁？(Who is she?)",e2:"谁是你的老师？(Who is your teacher?)"},{l:4,s:"S + 是 + 哪国人？",m:"\"哪\" (nǎ) = which; asking nationality",mv:"Hỏi quốc tịch với \"哪\" = nào/nước nào",en:"哪 means \"which\". 哪国人 = person of which country = what nationality.",vi:"哪 có nghĩa là \"nào\". 哪国人 = người nước nào = quốc tịch gì.",e1:"你是哪国人？(Which country are you from?)",e2:"你的老师是哪国人？(What nationality is your teacher?)"},{l:4,s:"A… 。B + 呢？",m:"\"呢\" asks the same question about B",mv:"Dùng \"呢\" để hỏi ngược lại về B",en:"呢 at the end of a noun/pronoun = \"What about B?\" — a shortcut for asking the same question.",vi:"呢 sau danh từ/đại từ = \"Còn B thì sao?\" — cách hỏi ngắn gọn cùng một câu hỏi.",e1:"我是美国人，你呢？(I am American, what about you?)",e2:"她叫李月，他呢？(Her name is Li Yue, what about him?)"},{l:4,s:"定语 + 的 + 名词",m:"\"的\" marks possession or modification",mv:"Dùng \"的\" biểu thị sở hữu hoặc tu sức từ",en:"的 connects a modifier to a noun. Used for possession (my book), adjectives (beautiful clothes), or relative clauses.",vi:"的 nối từ bổ nghĩa với danh từ. Dùng cho sở hữu (sách của tôi), tính từ (quần áo đẹp).",e1:"我的书 (my book)",e2:"她是我的汉语老师。(She is my Chinese teacher.)"},{l:5,s:"S + 有 + 几/多少 + 量词 + N",m:"Asking quantity",mv:"Hỏi số lượng bằng 几 hoặc 多少",en:"几 (jǐ) = how many (expected answer < 10). 多少 (duōshao) = how many/much (any number, no MW needed).",vi:"几 = mấy (kỳ vọng câu trả lời < 10). 多少 = bao nhiêu (số nào cũng được, không cần lượng từ).",e1:"你家有几口人？(How many people in your family?)",e2:"你有多少汉语书？(How many Chinese books do you have?)"},{l:5,s:"S + 今年 + 数字 + 岁 + 了",m:"Expressing age with 岁",mv:"Diễn đạt tuổi với 岁",en:"岁 (suì) = years old. Add 了 at the end to indicate this is the current age (new state).",vi:"岁 = tuổi. Thêm 了 vào cuối để chỉ đây là tuổi hiện tại (trạng thái mới).",e1:"她女儿今年二十岁了。(Her daughter is 20 this year.)",e2:"爷爷今年七十岁了。(Grandpa is 70 this year.)"},{l:5,s:"S + 多大了？/ 几岁了？",m:"Asking age",mv:"Hỏi tuổi",en:"多大了？= How old are you? (for adults/teens). 几岁了？= How old? (for young children under ~10).",vi:"多大了？= Bao nhiêu tuổi? (người lớn/thiếu niên). 几岁了？= Mấy tuổi? (trẻ nhỏ dưới ~10 tuổi).",e1:"你今年多大了？(How old are you this year?)",e2:"你女儿几岁了？(How old is your daughter?)"},{l:5,s:"……了 (change-of-state)",m:"了 signals a new state or change",mv:"了 biểu thị trạng thái mới / sự thay đổi",en:"When 了 appears at the end of a sentence (not after a verb), it signals a change: something has become true.",vi:"Khi 了 ở cuối câu (không sau động từ), nó báo hiệu sự thay đổi: điều gì đó đã trở thành sự thật.",e1:"她今年二十岁了。(She is 20 now [turned 20].)",e2:"天气冷了。(The weather has gotten cold.)"},{l:6,s:"S + (不) 会 + V",m:"\"会\" = learned skill; or prediction (will)",mv:"会 = biết làm (kỹ năng đã học); hoặc dự đoán (sẽ)",en:"会 has two uses: 1) can/know how to (a learned skill): 我会游泳. 2) will/prediction: 今天不会下雨.",vi:"会 có hai nghĩa: 1) biết làm (kỹ năng đã học): 我会游泳. 2) sẽ (dự đoán): 今天不会下雨.",e1:"我会说汉语。(I can speak Chinese [learned skill].)",e2:"今天不会下雨。(It will not rain today [prediction].)"},{l:6,s:"S + 很/不 + Adj",m:"Adjective predicate sentence",mv:"Câu vị ngữ tính từ",en:"In Chinese, adjectives can directly serve as predicates (no 是 needed!). 很 is usually added before single-syllable adj.",vi:"Trong tiếng Trung, tính từ có thể trực tiếp làm vị ngữ (không cần 是!). Thường thêm 很 trước tính từ một âm tiết.",e1:"中国菜很好吃。(Chinese food is delicious.)",e2:"我妈妈的汉语不好。(My mom's Chinese is not good.)"},{l:6,s:"怎么 + V？",m:"\"怎么\" (zěnme) = how? (asking method/manner)",mv:"怎么 = làm thế nào? (hỏi cách thức)",en:"怎么 asks HOW something is done. It comes before the verb it modifies.",vi:"怎么 hỏi về CÁCH thực hiện điều gì đó. Nó đứng trước động từ mà nó bổ nghĩa.",e1:"这个字怎么写？(How do you write this character?)",e2:"越南菜怎么做？(How do you make Vietnamese food?)"},{l:7,s:"月 + 号/日，星期 + 几",m:"Date expression order: month→day→weekday",mv:"Thứ tự ngày tháng: tháng→ngày→thứ",en:"Chinese date order is: Year → Month → Day → Weekday (big to small, opposite of English).",vi:"Thứ tự ngày tháng tiếng Trung: Năm → Tháng → Ngày → Thứ (lớn đến nhỏ, ngược với tiếng Anh).",e1:"今天是九月一号，星期三。(Today is Sep 1st, Wednesday.)",e2:"2024年7月7号，星期日 (July 7, 2024, Sunday)"},{l:7,s:"S + 去 (place) + V",m:"Serial verb: go somewhere to do something",mv:"Câu liên động: đi đâu để làm gì",en:"Two verbs in a row with no connector: the first describes direction/movement, the second is the purpose.",vi:"Hai động từ liên tiếp không có liên từ: động từ đầu chỉ hướng/chuyển động, động từ sau là mục đích.",e1:"我去学校看书。(I go to school to read.)",e2:"我去商店买东西。(I go to the shop to buy things.)"},{l:8,s:"S + (不) 想 + V",m:"\"想\" (xiǎng) = want to / would like to",mv:"想 = muốn / muốn làm gì",en:"想 expresses desire or intention. Negate with 不想 (do not want to).",vi:"想 diễn đạt mong muốn hoặc ý định. Phủ định bằng 不想 (không muốn).",e1:"我想喝茶。(I want to drink tea.)",e2:"我今天不想去学校。(I don't want to go to school today.)"},{l:8,s:"这/那 + 个 + N + 多少钱？",m:"Asking the price of something",mv:"Hỏi giá tiền của đồ vật",en:"多少钱？= How much money? (lit: how much money). Use 这个 (this one) or 那个 (that one) + noun.",vi:"多少钱？= Bao nhiêu tiền? Dùng 这个 (cái này) hoặc 那个 (cái kia) + danh từ.",e1:"这个杯子多少钱？(How much is this cup?)",e2:"那件衣服多少钱？(How much is that piece of clothing?)"},{l:9,s:"S + 在 + place",m:"\"在\" as main verb: to be located at",mv:"在 là động từ chính: ở (vị trí)",en:"在 as a main verb means \"to be at/in a location\". Answer 在哪儿？with S + 在 + place.",vi:"在 là động từ chính nghĩa là \"ở tại vị trí nào đó\". Trả lời 在哪儿？bằng S + 在 + địa điểm.",e1:"小狗在椅子下面。(The dog is under the chair.)",e2:"妈妈在家。(Mom is at home.)"},{l:9,s:"S + 在 + 哪儿？",m:"Asking location: Where is...?",mv:"Hỏi vị trí: ... ở đâu?",en:"哪儿 (nǎr) = where. 在哪儿？= Where is (someone/something)?",vi:"哪儿 = ở đâu. 在哪儿？= ... ở đâu?",e1:"你的杯子在哪儿？(Where is your cup?)",e2:"小猫在哪儿？(Where is the cat?)"},{l:9,s:"S + 在 + place + V + O",m:"\"在\" as preposition: doing something AT a place",mv:"在 là giới từ: làm gì Ở một nơi",en:"在 can also be a preposition (before the verb): Subject + 在 + place + verb.",vi:"在 cũng có thể là giới từ (trước động từ): Chủ ngữ + 在 + địa điểm + động từ.",e1:"我儿子在医院工作。(My son works at a hospital.)",e2:"他们在学校看书。(They are reading at school.)"},{l:10,s:"place + (没) 有 + N",m:"\"有\" expressing existence at a location",mv:"有 diễn đạt sự tồn tại ở một nơi",en:"To say something EXISTS at a location: place + 有 + object. Negate with 没有.",vi:"Để nói điều gì đó TỒN TẠI ở đâu: địa điểm + 有 + đồ vật. Phủ định bằng 没有.",e1:"桌子上有一本书。(There is a book on the table.)",e2:"这儿没有人。(There is no one here.)"},{l:10,s:"S + (不) 能 + V",m:"\"能\" (néng) = can (physical ability or permission)",mv:"能 = có thể (khả năng thể chất hoặc được phép)",en:"能 vs 会: 能 = physically able to OR situation allows. 会 = has learned the skill.",vi:"能 vs 会: 能 = có thể về mặt thể chất HOẶC tình huống cho phép. 会 = đã học được kỹ năng.",e1:"我能坐这儿吗？(Can I sit here? [permission])",e2:"明天你能回家吗？(Can you come home tomorrow? [situation])"},{l:10,s:"请 + V",m:"Polite imperative with 请",mv:"Câu cầu khiến lịch sự với 请",en:"请 (qǐng) = please / I invite you to. Makes commands polite. Can also mean \"to treat someone to a meal\".",vi:"请 = xin / mời. Làm câu mệnh lệnh trở nên lịch sự. Cũng có nghĩa là \"mời ai đó ăn\".",e1:"请坐。(Please sit down.)",e2:"请喝茶。(Please have some tea.)"},{l:11,s:"现在几点？/ S + 什么时候 + V？",m:"Asking the time or when",mv:"Hỏi giờ hoặc khi nào",en:"几点？= What time is it? / 什么时候？= When? (asking for a specific time/date).",vi:"几点？= Mấy giờ? / 什么时候？= Khi nào? (hỏi thời gian cụ thể).",e1:"现在几点？(What time is it now?)",e2:"你什么时候回家？(When are you coming home?)"},{l:11,s:"S + time word + V",m:"Time word as adverbial (before the verb)",mv:"Từ chỉ thời gian làm trạng ngữ (trước động từ)",en:"In Chinese, time words go BEFORE the verb (unlike English where they often go at the end).",vi:"Trong tiếng Trung, từ chỉ thời gian đặt TRƯỚC động từ (khác với tiếng Anh thường đặt sau).",e1:"妈妈六点做饭。(Mom cooks at 6 o'clock.)",e2:"我星期一去北京。(I am going to Beijing on Monday.)"},{l:11,s:"time/V + 前 / time/V + 后",m:"\"前\" = before; \"后\" = after",mv:"前 = trước; 后 = sau",en:"前 (qián) and 后 (hòu) follow a time expression or verb to mean before/after that point.",vi:"前 và 后 đặt sau biểu thức thời gian hoặc động từ để chỉ trước/sau thời điểm đó.",e1:"三点前能回家吗？(Can you be home before 3?)",e2:"40分钟后回来。(Back in 40 minutes.)"},{l:11,s:"A + 跟/和 + B + 一起 + V",m:"Doing something together with someone",mv:"Cùng ai đó làm gì",en:"跟 (gēn) or 和 (hé) + person + 一起 (yīqǐ) = do V together with someone.",vi:"跟 hoặc 和 + người + 一起 = cùng nhau làm gì đó.",e1:"你什么时候跟朋友去看电影？(When are you going to the movies with friends?)",e2:"他是和朋友一起开车来的。(He drove here with friends.)"},{l:11,s:"时间 vs 时候",m:"时间 = measurable time; 时候 = a moment / \"when\"",mv:"时间 = thời gian đo được; 时候 = lúc / khi",en:"时间 (shíjiān) = a span of time (hours, minutes) or a specific clock time. 时候 (shíhou) = a point in time, used in \"the time when...\" = 的时候.",vi:"时间 = khoảng thời gian (giờ, phút) hoặc giờ cụ thể trên đồng hồ. 时候 = một thời điểm, dùng trong \"lúc/khi...\" = 的时候.",e1:"上课的时间是早上9点。(Class time is 9 AM.)",e2:"我小的时候喜欢游泳。(When I was young, I liked swimming.)"},{l:12,s:"……怎么样？",m:"\"怎么样\" = How is it? What is it like?",mv:"怎么样 = Như thế nào? Cảm thấy thế nào?",en:"怎么样 asks for an opinion, description, or status. Very versatile — can follow a noun or subject.",vi:"怎么样 hỏi về nhận xét, mô tả hoặc tình trạng. Rất linh hoạt — có thể theo sau danh từ hoặc chủ ngữ.",e1:"明天天气怎么样？(What is the weather like tomorrow?)",e2:"你妈妈身体怎么样？(How is your mom's health?)"},{l:12,s:"太 + Adj + 了",m:"Expressing excess: too / extremely + adj",mv:"Diễn đạt mức độ quá: quá / lắm",en:"太...了 = too / extremely. The 了 is required and shows the result has exceeded an acceptable level.",vi:"太...了 = quá / lắm. 了 bắt buộc phải có và cho thấy kết quả đã vượt quá mức chấp nhận được.",e1:"天气太热了！(The weather is too hot!)",e2:"这件衣服太贵了。(This item of clothing is too expensive.)"},{l:12,s:"不太 + Adj",m:"Not very + adjective",mv:"Không ... lắm / hơi không",en:"不太 + adj = not very / not particularly (mild negation, softer than 不).",vi:"不太 + tính từ = không ... lắm / không đến mức (phủ định nhẹ, mềm mại hơn 不).",e1:"我身体不太好。(My health is not very good.)",e2:"这个菜不太好吃。(This dish is not very tasty.)"},{l:12,s:"S + 会 + V (prediction)",m:"\"会\" expressing probability or prediction",mv:"会 biểu thị xác suất hoặc dự đoán",en:"Second meaning of 会: it can express that something WILL happen or is likely to happen.",vi:"Nghĩa thứ hai của 会: diễn đạt rằng điều gì đó SẼ xảy ra hoặc có khả năng xảy ra.",e1:"今天会下雨吗？(Will it rain today?)",e2:"明天她会来。(She will come tomorrow.)"},{l:13,s:"喂，……",m:"\"喂\" (wèi/wéi) = hello/hey when answering the phone",mv:"喂 = A-lô / này (khi nghe điện thoại)",en:"喂 is used when answering the phone or getting someone's attention. Not used in face-to-face greetings.",vi:"喂 dùng khi nghe điện thoại hoặc thu hút sự chú ý. Không dùng trong lời chào mặt đối mặt.",e1:"喂，你在做什么呢？(Hello, what are you doing?)",e2:"喂，请问你是谁？(Hello, may I ask who this is?)"},{l:13,s:"S + 在 + V + O (+ 呢)",m:"\"在…(呢)\" = present continuous: is/are doing…",mv:"在…(呢) = đang làm gì (tiếp diễn hiện tại)",en:"在 before a verb (with optional 呢 at end) indicates an ongoing action. Like \"-ing\" in English.",vi:"在 trước động từ (với 呢 tùy chọn ở cuối) chỉ hành động đang diễn ra. Giống \"-ing\" trong tiếng Anh.",e1:"我在看书呢。(I am reading.)",e2:"你在做什么呢？(What are you doing?)"},{l:13,s:"S + 没(在) + V",m:"Negating an ongoing action",mv:"Phủ định hành động đang diễn ra",en:"Negate 在...呢 with 没: simply drop 在 or use 没在 before the verb.",vi:"Phủ định 在...呢 bằng 没: bỏ 在 hoặc dùng 没在 trước động từ.",e1:"我没在看电视。(I am not watching TV.)",e2:"她没工作。(She is not working.)"},{l:13,s:"……吧",m:"\"吧\" = soft suggestion / confirmation seeking",mv:"吧 = gợi ý nhẹ nhàng / xác nhận",en:"吧 at sentence end softens commands into suggestions, or turns statements into assumptions seeking agreement.",vi:"吧 ở cuối câu làm mềm mệnh lệnh thành gợi ý, hoặc biến câu khẳng định thành giả định cần xác nhận.",e1:"今天我们在家吃饭吧。(Let's eat at home today.)",e2:"你是学生吧？(You are a student, right?)"},{l:13,s:"A + 给 + B + V + O",m:"\"给\" (gěi) as preposition: do V for/to B",mv:"给 làm giới từ: làm gì cho/với B",en:"给 as a preposition means \"for\" or \"to\" (an indirect object). S + 给 + recipient + V + O.",vi:"给 làm giới từ nghĩa là \"cho\" hoặc \"tới\" (tân ngữ gián tiếp). Chủ ngữ + 给 + người nhận + động từ + tân ngữ.",e1:"我给她打电话。(I call her [lit: I for her make a call].)",e2:"你给我买一杯咖啡吧。(Buy me a coffee please.)"},{l:14,s:"S + V + O + 了 (completed)",m:"了 marking a completed action",mv:"了 đánh dấu hành động đã hoàn thành",en:"When 了 appears directly after a verb (before object or at sentence end), it marks COMPLETION of that action.",vi:"Khi 了 xuất hiện ngay sau động từ (trước tân ngữ hoặc cuối câu), nó đánh dấu sự HOÀN THÀNH của hành động đó.",e1:"我去商店了。(I went to the shop.)",e2:"她买了一点儿苹果。(She bought a few apples.)"},{l:14,s:"S + 没 + V (O) [no 了]",m:"Negating a completed action (use 没, NOT 不, no 了)",mv:"Phủ định hành động đã làm (dùng 没, KHÔNG dùng 不, bỏ 了)",en:"To negate a completed action: use 没 (not 不) and DROP 了. Never say 不了.",vi:"Để phủ định hành động đã làm: dùng 没 (không dùng 不) và BỎ 了. Không bao giờ nói 不了.",e1:"她没去商店。(She did not go to the shop.)",e2:"我没买东西。(I did not buy anything.)"},{l:14,s:"S + 都 + V",m:"\"都\" (dōu) = all / both (before the verb)",mv:"都 = đều / cả (đặt TRƯỚC động từ)",en:"都 means \"all\" or \"both\" and must come BEFORE the verb, never at the start of a sentence alone.",vi:"都 có nghĩa là \"đều\" hoặc \"cả\" và phải đặt TRƯỚC động từ, không bao giờ đứng một mình đầu câu.",e1:"我们都是中国人。(We are all Chinese.)",e2:"这些衣服都很漂亮。(All these clothes are beautiful.)"},{l:14,s:"一点儿 vs 一些",m:"一点儿 for uncountable; 一些 for countable nouns",mv:"一点儿 cho danh từ không đếm được; 一些 cho danh từ đếm được",en:"一点儿 (yīdiǎnr) + uncountable noun: 一点儿水 (a little water). 一些 (yīxiē) + countable: 一些人 (some people). Both mean \"a small amount/number\".",vi:"一点儿 + danh từ không đếm được: 一点儿水 (một chút nước). 一些 + danh từ đếm được: 一些人 (một vài người).",e1:"我买了一点儿苹果。(I bought a few apples [uncountable-ish].)",e2:"一些学生来了。(Some students came.)"},{l:15,s:"S + 是 + time/place/manner + V(O) + 的",m:"\"是…的\" highlights HOW / WHEN / WHERE a past action happened",mv:"是…的 nhấn mạnh CÁCH / LÚC / NƠI của hành động trong quá khứ",en:"The 是…的 structure is used to emphasize the manner, time, or place of a PAST action (the action already happened).",vi:"Cấu trúc 是…的 dùng để nhấn mạnh CÁCH thức, THỜI GIAN hoặc NƠI chốn của hành động QUÁ KHỨ (hành động đã xảy ra).",e1:"我是坐飞机来的。(I came BY PLANE — emphasizing manner.)",e2:"他们是在学校认识的。(They met AT SCHOOL — emphasizing place.)"},{l:15,s:"S + 不是 + manner + V(O) + 的",m:"Negative form of 是…的",mv:"Dạng phủ định của 是…的",en:"Negate 是…的 by changing 是 to 不是. The 的 stays at the end.",vi:"Phủ định 是…的 bằng cách đổi 是 thành 不是. 的 vẫn giữ ở cuối câu.",e1:"我不是昨天来的。(I did NOT come yesterday.)",e2:"他不是坐飞机去北京的。(He did not go to Beijing by plane.)"},{l:15,s:"S + 是 + 什么时候/在哪儿/怎么 + V(O) + 的？",m:"Question form of 是…的",mv:"Dạng câu hỏi của 是…的",en:"Ask about time: 是什么时候...的？; about place: 是在哪儿...的？; about manner: 是怎么...的？",vi:"Hỏi về thời gian: 是什么时候...的？; về địa điểm: 是在哪儿...的？; về cách thức: 是怎么...的？",e1:"你是什么时候来的？(When did you arrive?)",e2:"他们是在哪儿认识的？(Where did they meet?)"},{l:15,s:"年 → 月 → 号/日 → 星期",m:"Full date order: Year → Month → Day → Weekday",mv:"Thứ tự ngày đầy đủ: Năm → Tháng → Ngày → Thứ",en:"Chinese goes from biggest to smallest unit: Year 年 → Month 月 → Day 号/日 → Weekday 星期几.",vi:"Tiếng Trung đi từ đơn vị lớn đến nhỏ: Năm 年 → Tháng 月 → Ngày 号/日 → Thứ 星期几.",e1:"明天是2024年7月7号，星期日。(Tomorrow is July 7, 2024, Sunday.)",e2:"我们是2011年9月认识的。(We met in September 2011.)"}];
+
+function setLang(lg){
+  LANG=lg;
+  document.getElementById('lb-en').className=lg==='en'?'lb on':'lb';
+  document.getElementById('lb-vi').className=lg==='vi'?'lb on':'lb';
+  localStorage.setItem('hsk1lang',lg);
+  applyUI();buildPills();
+  if(st.cards.length)showCard();
+  if(st.qItem)qzNext();
+  if(st.tItems.length)tShow();
+  renderGram();renderStats();
+}
+function applyUI(){
+  var m={hp:'hp',catLbl:'fcl',grLbl:'grl',show:'b-show',know:'b-know',learn:'b-learn',
+    shuf:'b-shuf',weak:'b-weak',qnxt:'b-qnxt',qrst:'b-qrst',tmode:'tmode',thint:'thint',
+    tck:'b-tck',tsk:'b-tsk',tnx:'b-tnx',mwt:'mwtitle',mnx:'b-mnx',mrst:'b-mrst',
+    sl1:'sl1',sl2:'sl2',sl3:'sl3',srl:'srl',srst:'b-srst'};
+  for(var k in m)document.getElementById(m[k]).textContent=u(k);
+  document.getElementById('tinp').placeholder=u('tpla');
+  var tb=u('tb');for(var i=0;i<6;i++)document.getElementById('tb'+i).textContent=tb[i];
+}
+
+var st={cards:[],idx:0,rev:false,known:{},unk:{},cats:{},streak:0,
+  qScore:0,qTotal:0,qItem:null,qAns:false,
+  tItems:[],tIdx:0,tScore:0,tTotal:0,tOk:false,tLocked:false,_tc:false,
+  mItems:[],mIdx:0,mScore:0,mTotal:0,mAns:false,
+  gL:{}};
+
+function loadSt(){
+  try{var d=JSON.parse(localStorage.getItem('hsk1app2')||'{}');
+    st.known=d.k||{};st.unk=d.u||{};st.streak=d.s||0;}catch(e){}
+  try{LANG=localStorage.getItem('hsk1lang')||'en';}catch(e){}
+}
+function saveSt(){localStorage.setItem('hsk1app2',JSON.stringify({k:st.known,u:st.unk,s:st.streak}));}
+function shuf(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}}
+function g(id){return document.getElementById(id);}
+function setR(id,txt,cls){var el=g(id);el.textContent=txt;el.className=cls?'res '+cls:'res';}
+
+function go(name,btn){
+  var all=document.querySelectorAll('.scr');for(var i=0;i<all.length;i++)all[i].className='scr';
+  var tbs=document.querySelectorAll('.tb');for(var i=0;i<tbs.length;i++)tbs[i].className='tb';
+  g('s-'+name).className='scr on';btn.className='tb on';
+  if(name==='quiz'&&!st.qItem)qzNext();
+  if(name==='sent'&&!st.tItems.length)tInit();
+  if(name==='mw'&&!st.mItems.length)mwInit();
+  if(name==='gram')renderGram();
+  if(name==='stats')renderStats();
+  window.scrollTo(0,0);
+}
+
+// FLASHCARDS
+function buildPills(){
+  var c=g('cat-pills');c.innerHTML='';
+  var allOn=Object.keys(st.cats).length===CAT_KEYS.length;
+  var ab=document.createElement('button');
+  ab.className='pill'+(allOn?' on':'');
+  ab.textContent='All';
+  ab.onclick=function(){
+    if(Object.keys(st.cats).length===CAT_KEYS.length){
+      st.cats={};
+    } else {
+      for(var i=0;i<CAT_KEYS.length;i++)st.cats[CAT_KEYS[i]]=1;
+    }
+    buildPills();buildCards();
+  };
+  c.appendChild(ab);
+  for(var i=0;i<CAT_KEYS.length;i++){(function(k){
+    var b=document.createElement('button');
+    b.className='pill'+(st.cats[k]?' on':'');
+    b.textContent=catName(k);
+    b.onclick=function(){
+      if(Object.keys(st.cats).length===CAT_KEYS.length){
+        // If all on, clicking one means "show only this"
+        st.cats={};st.cats[k]=1;
+      } else if(st.cats[k]&&Object.keys(st.cats).length===1){
+        // If only this one is on, clicking means "show all"
+        for(var j=0;j<CAT_KEYS.length;j++)st.cats[CAT_KEYS[j]]=1;
+      } else {
+        if(st.cats[k])delete st.cats[k];else st.cats[k]=1;
+      }
+      buildPills();buildCards();
+    };
+    c.appendChild(b);
+  })(CAT_KEYS[i]);}
+}
+
+function buildCards(){
+  var clen=Object.keys(st.cats).length;
+  st.cards=V.filter(function(w){return clen===0||st.cats[w.c];});
+  shuf(st.cards);st.idx=0;showCard();
+}
+
+function showCard(){
+  if(!st.cards.length){g('fhz').textContent=u('noW');['fpy','fmn','fex','ftag','fctr'].forEach(function(id){g(id).textContent='';});return;}
+  var w=st.cards[st.idx];
+  g('fhz').textContent=w.h;['fpy','fmn','fex'].forEach(function(id){g(id).textContent='';});
+  g('ftag').innerHTML='';st.rev=false;
+  g('fp').style.width=Math.floor(st.idx/st.cards.length*100)+'%';
+  g('fctr').textContent=(st.idx+1)+' / '+st.cards.length+' \u00b7 '+u('ltag')+w.l;
+}
+function flReveal(){
+  if(!st.cards.length)return;
+  var w=st.cards[st.idx];
+  g('fpy').textContent=w.p;g('fmn').textContent=mn(w);g('fex').textContent=w.e;
+  g('ftag').innerHTML='<span class="ltag">'+u('ltag')+w.l+'</span>';st.rev=true;
+}
+function flMark(know){
+  if(!st.cards.length)return;
+  if(!st.rev){flReveal();return;}
+  var w=st.cards[st.idx];
+  if(know){st.known[w.h]=1;delete st.unk[w.h];}else{st.unk[w.h]=1;delete st.known[w.h];}
+  saveSt();st.idx=(st.idx+1)%st.cards.length;showCard();
+}
+function flShuffle(){shuf(st.cards);st.idx=0;showCard();}
+function flWeak(){
+  var weak=V.filter(function(v){return st.unk[v.h];});
+  if(!weak.length){alert(LANG==='vi'?'Ch\u01b0a c\u00f3 t\u1eeb y\u1ebfu! H\u00e3y \u0111\u00e1nh d\u1ea5u Ch\u01b0a bi\u1ebft tr\u01b0\u1edbc.':'No weak words yet!');return;}
+  st.cards=weak.slice();shuf(st.cards);st.idx=0;showCard();
+}
+
+// QUIZ
+function qzNext(){
+  var clen=Object.keys(st.cats).length;
+  var pool=V.filter(function(w){return clen===0||st.cats[w.c];});
+  if(pool.length<4)return;
+  st.qAns=false;setR('qres','','');
+  var modes=['h2m','m2h','p2h'];
+  var mode=modes[Math.floor(Math.random()*3)];
+  st.qItem=pool[Math.floor(Math.random()*pool.length)];
+  var wrong=pool.filter(function(w){return w.h!==st.qItem.h;}).sort(function(){return Math.random()-.5;}).slice(0,3);
+  var opts=[st.qItem].concat(wrong).sort(function(){return Math.random()-.5;});
+  var mlbl={'h2m':'Chinese \u2192 '+(LANG==='vi'?'Vietnamese':'English'),
+    'm2h':(LANG==='vi'?'Vietnamese':'English')+' \u2192 Chinese','p2h':'Pinyin \u2192 Chinese'};
+  g('qmode').textContent=mlbl[mode];
+  var qq=g('qq');
+  qq.textContent=mode==='h2m'?st.qItem.h:mode==='m2h'?mn(st.qItem):st.qItem.p;
+  qq.style.fontSize=mode==='h2m'?'60px':'28px';
+  var og=g('qopts');og.innerHTML='';
+  opts.forEach(function(o){
+    var b=document.createElement('div');b.className='opt';
+    b.textContent=mode==='h2m'?mn(o):o.h;
+    b.onclick=function(){
+      if(st.qAns)return;st.qAns=true;st.qTotal++;
+      var ok=o.h===st.qItem.h;
+      if(ok){st.qScore++;b.className='opt ok dis';}
+      else{b.className='opt bad dis';
+        var all=og.querySelectorAll('.opt');
+        for(var i=0;i<all.length;i++){
+          all[i].className=all[i].textContent===(mode==='h2m'?mn(st.qItem):st.qItem.h)?'opt ok dis':'opt dis';
+        }
+      }
+      g('qsc').textContent=st.qScore+'/'+st.qTotal;
+      setR('qres',ok?u('ok'):u('wrong')+st.qItem.h+' ('+st.qItem.p+') = '+mn(st.qItem),ok?'ok':'bad');
+      var rest=og.querySelectorAll('.opt:not(.ok):not(.bad)');
+      for(var i=0;i<rest.length;i++)rest[i].className='opt dis';
+    };
+    og.appendChild(b);
+  });
+  g('qp').style.width=Math.min(100,st.qTotal*4)+'%';
+}
+function qzReset(){st.qScore=0;st.qTotal=0;st.qItem=null;g('qsc').textContent='0/0';g('qopts').innerHTML='';setR('qres','','');g('qp').style.width='0%';qzNext();}
+
+// SENTENCES
+function tInit(){st.tItems=TR.slice().sort(function(){return Math.random()-.5;});st.tIdx=0;st.tScore=0;st.tTotal=0;st.tOk=false;st.tLocked=false;st._tc=false;tShow();}
+function tShow(){
+  if(st.tIdx>=st.tItems.length){st.tIdx=0;shuf(st.tItems);}
+  var it=st.tItems[st.tIdx];st.tOk=false;st.tLocked=false;st._tc=false;
+  g('tq').textContent=LANG==='vi'?it.v:it.e;
+  g('tfoc').textContent=u('gfoc')+it.h;
+  var inp=g('tinp');inp.value='';inp.className='inp';inp.disabled=false;
+  setR('tres','','');
+  g('tp').style.width=Math.min(100,st.tTotal*1.2)+'%';
+  g('tsc').textContent=st.tScore+'/'+st.tTotal;inp.focus();
+}
+function normZH(s){return s.trim().replace(/[\u3002\uff0c\uff01\uff1f\u3001\uff1a\uff1b\u300a\u300b\s.,!?;:'"]/g,'');}
+function trCheck(){
+  if(st.tOk||st.tLocked)return;
+  var it=st.tItems[st.tIdx];var inp=g('tinp').value;if(!inp.trim())return;
+  var ok=normZH(inp)===normZH(it.a);
+  if(ok){
+    st.tOk=true;
+    if(!st._tc){st.tTotal++;st.tScore++;st._tc=true;}
+    g('tinp').className='inp okb';g('tinp').disabled=true;
+    g('tsc').textContent=st.tScore+'/'+st.tTotal;
+    setR('tres',u('ok'),'ok');
+  } else {
+    if(!st._tc){st.tTotal++;st._tc=true;g('tsc').textContent=st.tScore+'/'+st.tTotal;}
+    g('tinp').className='inp badb';
+    setR('tres',u('wrong')+it.a,'bad');
+    g('tinp').disabled=false;g('tinp').focus();
+  }
+}
+function trSkip(){
+  if(st.tOk)return;
+  var it=st.tItems[st.tIdx];
+  if(!st._tc){st.tTotal++;st._tc=true;g('tsc').textContent=st.tScore+'/'+st.tTotal;}
+  st.tLocked=true;g('tinp').disabled=true;g('tinp').className='inp badb';
+  setR('tres',u('ans')+it.a,'bad');
+}
+function trNext(){st.tIdx++;tShow();}
+
+// MEASURE WORDS — pinyin hint hidden until after answer
+function mwInit(){st.mItems=MW.slice();shuf(st.mItems);st.mIdx=0;st.mScore=0;st.mTotal=0;st.mAns=false;mwShow();}
+function mwShow(){
+  if(st.mIdx>=st.mItems.length){st.mIdx=0;shuf(st.mItems);}
+  st.mAns=false;var it=st.mItems[st.mIdx];
+  g('mwq').textContent=it.q;
+  g('mwpy').textContent='';  // hidden before answer
+  g('mwex').textContent='';  // hide example before answer
+  setR('mres','','');
+  g('mp').style.width=Math.floor(st.mIdx/st.mItems.length*100)+'%';
+  var og=g('mopts');og.innerHTML='';
+  it.o.forEach(function(o){
+    var b=document.createElement('div');b.className='opt';b.textContent=o;
+    b.onclick=function(){
+      if(st.mAns)return;st.mAns=true;st.mTotal++;
+      var ok=o===it.a;
+      if(ok){st.mScore++;b.className='opt ok dis';}
+      else{b.className='opt bad dis';
+        var all=og.querySelectorAll('.opt');
+        for(var i=0;i<all.length;i++)
+          all[i].className=all[i].textContent===it.a?'opt ok dis':'opt dis';
+      }
+      g('msc').textContent=st.mScore+'/'+st.mTotal;
+      // NOW show pinyin and example
+      g('mwpy').textContent='Pinyin: '+it.py;
+      g('mwex').textContent=it.ex;
+      var xpl=LANG==='vi'?it.xvi:it.xen;
+      setR('mres',(ok?u('ok')+' ':'Wrong! ')+xpl,ok?'ok':'bad');
+      var rest=og.querySelectorAll('.opt:not(.ok):not(.bad)');
+      for(var i=0;i<rest.length;i++)rest[i].className='opt dis';
+    };
+    og.appendChild(b);
+  });
+  st.mIdx++;
+}
+function mwNext(){mwShow();}
+function mwReset(){mwInit();}
+
+// GRAMMAR
+function buildGrPills(){
+  var c=g('gr-pills');c.innerHTML='';
+  var lesNums=[3,4,5,6,7,8,9,10,11,12,13,14,15];
+  var allOn=Object.keys(st.gL).length===lesNums.length;
+  var ab=document.createElement('button');
+  ab.className='pill'+(allOn?' on':'');ab.textContent='All';
+  ab.onclick=function(){
+    if(Object.keys(st.gL).length===lesNums.length){st.gL={};}
+    else{for(var i=0;i<lesNums.length;i++)st.gL[lesNums[i]]=1;}
+    buildGrPills();renderGram();
+  };
+  c.appendChild(ab);
+  lesNums.forEach(function(n){
+    var b=document.createElement('button');
+    b.className='pill'+(st.gL[n]?' on':'');
+    b.textContent='L'+n;
+    b.onclick=function(){
+      if(Object.keys(st.gL).length===lesNums.length){
+        // Tất cả đang bật -> click 1 cái = chỉ hiện bài đó
+        st.gL={};st.gL[n]=1;
+      } else if(st.gL[n]&&Object.keys(st.gL).length===1){
+        // Chỉ còn 1 bài -> click lại = bật tất cả
+        for(var i=0;i<lesNums.length;i++)st.gL[lesNums[i]]=1;
+      } else {
+        if(st.gL[n])delete st.gL[n];else st.gL[n]=1;
+      }
+      buildGrPills();renderGram();
+    };
+    c.appendChild(b);
+  });
+}
+function renderGram(){
+  var list=g('gr-list');list.innerHTML='';
+  GR.filter(function(gr){return st.gL[gr.l];}).forEach(function(gr){
+    var d=document.createElement('div');d.className='gi';
+    var meaning=LANG==='vi'?gr.mv:gr.m;
+    var expl=LANG==='vi'?gr.vi:gr.en;
+    d.innerHTML='<span class="gl">L'+gr.l+'</span>'+
+      '<div class="gs">'+gr.s+'</div>'+
+      '<div class="gm">'+meaning+'</div>'+
+      '<div class="gm" style="color:var(--txt3);font-size:12px;margin-bottom:8px">'+expl+'</div>'+
+      '<div class="ge">'+gr.e1+'</div>'+
+      '<div class="ge">'+gr.e2+'</div>';
+    list.appendChild(d);
+  });
+  if(!list.children.length)list.innerHTML='<div class="em">'+u('noG')+'</div>';
+}
+
+// STATS
+function renderStats(){
+  g('stot').textContent=Object.keys(st.known).length+Object.keys(st.unk).length;
+  g('skn').textContent=Object.keys(st.known).length;
+  g('sstr').textContent=st.streak;
+  var list=g('rev-list');list.innerHTML='';
+  var unk=Object.keys(st.unk);
+  if(!unk.length){list.innerHTML='<div class="em">'+u('sem')+'</div>';return;}
+  unk.slice(0,30).forEach(function(h){
+    var w=V.filter(function(x){return x.h===h;})[0];if(!w)return;
+    var d=document.createElement('div');d.className='ri';
+    d.innerHTML='<div class="rh">'+w.h+'</div><div style="flex:1"><div class="rp">'+w.p+'</div><div class="rm">'+mn(w)+'</div></div><span class="ltag">L'+w.l+'</span>';
+    list.appendChild(d);
+  });
+  if(unk.length>30){var m=document.createElement('div');m.style.cssText='text-align:center;font-size:13px;color:var(--txt2);padding:.5rem';m.textContent='... and '+(unk.length-30)+' more';list.appendChild(m);}
+}
+function clearStats(){st.known={};st.unk={};st.streak=0;saveSt();renderStats();}
+
+// INIT
+loadSt();
+for(var i=0;i<CAT_KEYS.length;i++)st.cats[CAT_KEYS[i]]=1;
+var lesNums=[3,4,5,6,7,8,9,10,11,12,13,14,15];
+for(var i=0;i<lesNums.length;i++)st.gL[lesNums[i]]=1;
+document.getElementById('lb-en').className=LANG==='en'?'lb on':'lb';
+document.getElementById('lb-vi').className=LANG==='vi'?'lb on':'lb';
+buildPills();buildGrPills();buildCards();applyUI();
+document.getElementById('tinp').addEventListener('keydown',function(e){if(e.key==='Enter')trCheck();});
+</script>
+</body>
+</html>
